@@ -1870,6 +1870,172 @@ font-size:42px;
       font-size: 13px;
       margin-top: 6px;
     }
+    /* ================= CTA BANNER ================= */
+
+.cta-banner{
+    position:relative;
+    min-height:560px;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    overflow:hidden;
+
+    background: linear-gradient(rgba(0,0,0,.45), rgba(0,0,0,.45)),
+    url("https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=2000&q=80")
+    center center/cover no-repeat;
+
+    min-height:560px;
+    position:relative;
+}
+
+/* Dark overlay */
+
+.cta-overlay{
+    position:absolute;
+    inset:0;
+
+    background:
+    linear-gradient(
+        rgba(0,0,0,.45),
+        rgba(0,0,0,.45)
+    );
+}
+
+/* Content */
+
+.cta-content{
+    position:relative;
+    z-index:2;
+    text-align:center;
+    max-width:900px;
+}
+
+.cta-content h2{
+    color:#fff;
+
+    font-size:76px;
+    line-height:1.05;
+
+    font-weight:700;
+
+    font-family:"Inter",sans-serif;
+
+    margin-bottom:55px;
+
+    letter-spacing:-2px;
+}
+
+.cta-btn{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+
+    width:370px;
+    height:72px;
+
+    background:#fff;
+    color:#111;
+
+    text-decoration:none;
+
+    font-size:17px;
+    font-weight:700;
+
+    letter-spacing:4px;
+    text-transform:uppercase;
+
+    transition:.35s;
+}
+
+.cta-btn:hover{
+    background:#d7b46a;
+    color:#fff;
+}
+
+/* Floating Button */
+
+.consult-btn{
+    position:absolute;
+
+    right:70px;
+    bottom:40px;
+
+    width:210px;
+    height:62px;
+
+    background:#17b8d8;
+
+    color:#fff;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    text-decoration:none;
+
+    font-size:20px;
+    font-weight:600;
+
+    border-radius:14px;
+
+    z-index:5;
+
+    box-shadow:0 15px 35px rgba(0,0,0,.25);
+
+    transition:.35s;
+}
+
+.consult-btn:hover{
+    transform:translateY(-5px);
+}
+
+/* Tablet */
+
+@media(max-width:992px){
+
+.cta-content h2{
+    font-size:58px;
+}
+
+}
+
+/* Mobile */
+
+@media(max-width:768px){
+
+.cta-banner{
+    min-height:450px;
+    padding:60px 20px;
+}
+
+.cta-content h2{
+    font-size:42px;
+    line-height:1.15;
+    margin-bottom:35px;
+}
+
+.cta-btn{
+    width:100%;
+    max-width:340px;
+    height:62px;
+
+    font-size:15px;
+    letter-spacing:2px;
+}
+
+.consult-btn{
+    right:20px;
+    bottom:20px;
+
+    width:180px;
+    height:54px;
+
+    font-size:17px;
+}
+
+}
 
     /* ============ FOOTER ============ */
     footer {
@@ -2738,7 +2904,23 @@ font-size:42px;
       </div>
     </div>
   </section>
+  <!--CTA-->
+    <section class="cta-banner">
+    <div class="cta-overlay"></div>
 
+    <div class="cta-content">
+        <h2>
+            Looking to build your dream
+            <br>
+            home?
+        </h2>
+
+        <a href="#" class="cta-btn">
+            BUILD YOUR DREAM HOME NOW
+        </a>
+    </div>
+
+</section>
   <!-- CONTACT -->
   <section id="contact">
     <div class="container contact-grid">
