@@ -901,22 +901,41 @@ padding-bottom:60px;
 }
 
 .stats-card{
-grid-template-columns:1fr;
+grid-template-columns:repeat(2,1fr);
 border-radius:22px;
 }
 
 .stat-item{
-border-right:none !important;
-border-bottom:1px solid rgba(255,255,255,.08);
-padding:30px 20px;
-}
-
-.stat-item:last-child{
-border-bottom:none;
+padding:24px 14px;
 }
 
 .stat-item h3{
-font-size:42px;
+font-size:28px;
+margin-bottom:6px;
+}
+
+.stat-item p{
+font-size:11px;
+letter-spacing:.1px;
+}
+
+.stat-icon{
+width:52px;
+height:52px;
+margin-bottom:14px;
+}
+
+.stat-icon svg{
+width:26px;
+height:26px;
+}
+
+.stat-item:nth-child(odd){
+border-right:1px solid rgba(255,255,255,.08);
+}
+
+.stat-item:nth-child(-n+2){
+border-bottom:1px solid rgba(255,255,255,.08);
 }
 
 }
