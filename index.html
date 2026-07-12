@@ -12,6 +12,7 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800;900&family=Inter:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap"
     rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
   <style>
     /* ============ TOKENS ============ */
     :root {
@@ -762,52 +763,163 @@
     }
 
     /* ============ STATS ============ */
-    #stats {
-      background: var(--black);
-      padding: 90px 0;
-      position: relative;
-      overflow: hidden;
-    }
+   #stats{
+    position:relative;
+    margin-top:-80px;
+    z-index:20;
+    padding-bottom:90px;
+    background:transparent;
+}
+/* ================= PREMIUM STATS ================= */
 
-    #stats::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background-image: linear-gradient(rgba(245, 180, 0, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(245, 180, 0, 0.05) 1px, transparent 1px);
-      background-size: 60px 60px;
-    }
+#stats{
+    position:relative;
+    margin-top:-80px;
+    z-index:20;
+    padding-bottom:90px;
+    background:transparent;
+}
 
-    .stats-grid {
-      position: relative;
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 30px;
-      text-align: center;
-    }
+.stat-icon{
+    width:72px;
+    height:72px;
+    margin:0 auto 22px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
 
-    .stat-num {
-      font-family: var(--mono);
-      font-weight: 700;
-      font-size: clamp(36px, 4.4vw, 58px);
-      color: var(--yellow);
-      line-height: 1;
-    }
+    border:1px solid rgba(245,180,0,.15);
+    border-radius:50%;
 
-    .stat-label {
-      color: rgba(255, 255, 255, 0.65);
-      margin-top: 12px;
-      font-size: 14.5px;
-      letter-spacing: .5px;
-    }
+    background:linear-gradient(
+        180deg,
+        rgba(255,255,255,.04),
+        rgba(255,255,255,.01)
+    );
 
-    .stat-item {
-      border-right: 1px solid var(--gray-line);
-    }
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.08),
+        0 12px 30px rgba(0,0,0,.35);
 
-    .stat-item:last-child {
-      border-right: none;
-    }
+    transition:.45s cubic-bezier(.2,.8,.2,1);
+}
 
+.stat-icon svg{
+    width:34px;
+    height:34px;
+    stroke:#d9b36c;
+    stroke-width:1.7;
+}
+
+.stat-item:hover .stat-icon{
+    transform:translateY(-6px) scale(1.06);
+
+    border-color:#d9b36c;
+
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.12),
+        0 18px 40px rgba(217,179,108,.18);
+}
+
+.stat-item:hover .stat-icon svg{
+    stroke:#f5c978;
+}
+
+.stats-card{
+    background:rgba(15,15,15,.92);
+    backdrop-filter:blur(18px);
+    -webkit-backdrop-filter:blur(18px);
+
+    border:1px solid rgba(255,255,255,.08);
+    border-radius:28px;
+
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+
+    overflow:hidden;
+
+    box-shadow:
+    0 25px 60px rgba(0,0,0,.45),
+    inset 0 1px 0 rgba(255,255,255,.05);
+}
+
+.stat-item{
+    padding:42px 20px;
+    text-align:center;
+    position:relative;
+}
+
+.stat-item:not(:last-child){
+    border-right:1px solid rgba(255,255,255,.08);
+}
+
+.stat-icon{
+    font-size:34px;
+    margin-bottom:18px;
+    color:#F5B400;
+}
+
+.stat-item h3{
+    font-family:var(--display);
+    color:#F5B400;
+    font-size:56px;
+    font-weight:700;
+    line-height:1;
+    margin-bottom:12px;
+}
+
+.stat-item p{
+    color:rgba(255,255,255,.75);
+    font-size:15px;
+    letter-spacing:.3px;
+}
+
+/* Tablet */
+@media(max-width:991px){
+
+.stats-card{
+grid-template-columns:repeat(2,1fr);
+}
+
+.stat-item:nth-child(2){
+border-right:none;
+}
+
+.stat-item:nth-child(1),
+.stat-item:nth-child(2){
+border-bottom:1px solid rgba(255,255,255,.08);
+}
+
+}
+
+/* Mobile */
+@media(max-width:576px){
+
+#stats{
+margin-top:-40px;
+padding-bottom:60px;
+}
+
+.stats-card{
+grid-template-columns:1fr;
+border-radius:22px;
+}
+
+.stat-item{
+border-right:none !important;
+border-bottom:1px solid rgba(255,255,255,.08);
+padding:30px 20px;
+}
+
+.stat-item:last-child{
+border-bottom:none;
+}
+
+.stat-item h3{
+font-size:42px;
+}
+
+}
     /* ============ ABOUT ============ */
     #about {
       padding: 140px 0;
@@ -2112,75 +2224,46 @@
   </section>
 
   <!-- STATS -->
-  <section id="stats">
-    <div class="container stats-grid">
-      <div class="stat-item">
-        <div class="stat-num" data-count="15">0</div>
-        <div class="stat-label">Years Experience</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-num" data-count="350">0</div>
-        <div class="stat-label">Projects Completed</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-num" data-count="120">0</div>
-        <div class="stat-label">Expert Engineers</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-num" data-count="99">0</div>
-        <div class="stat-label">Client Satisfaction</div>
-      </div>
-    </div>
-  </section>
+  <!-- ================= STATS ================= -->
+<section id="stats">
+  <div class="container">
+    <div class="stats-card">
 
-  <!-- ABOUT -->
-  <section id="about">
-    <div class="container about-grid">
-      <div class="about-img reveal-scale">
-        <img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=900&q=80"
-          alt="VINS Construction engineers on site">
-        <div class="about-badge"><span class="n">15+</span><span class="l">Years Building</span></div>
-      </div>
-      <div class="about-text reveal">
-        <div class="eyebrow-dark">About VINS Construction</div>
-        <h2 class="section-title">Precision engineering, <br>built on trust.</h2>
-        <p>For over fifteen years, VINS Construction has delivered landmark residential, commercial, and industrial
-          projects across the region. Every foundation we pour and every beam we raise carries the same standard:
-          uncompromising quality, transparent process, and delivery you can set your calendar by.</p>
-        <div class="feature-grid">
-          <div class="feature-card">
-            <div class="feature-icon">✓</div>
-            <div>
-              <h4>Premium Quality</h4>
-              <p>Materials and finishes vetted at every stage.</p>
-            </div>
-          </div>
-          <div class="feature-card">
-            <div class="feature-icon">✓</div>
-            <div>
-              <h4>Trusted Team</h4>
-              <p>120+ engineers with decades of combined expertise.</p>
-            </div>
-          </div>
-          <div class="feature-card">
-            <div class="feature-icon">✓</div>
-            <div>
-              <h4>Modern Technology</h4>
-              <p>BIM modeling and precision site management.</p>
-            </div>
-          </div>
-          <div class="feature-card">
-            <div class="feature-icon">✓</div>
-            <div>
-              <h4>Sustainable Build</h4>
-              <p>Energy-conscious methods on every site.</p>
-            </div>
-          </div>
-        </div>
-      </div>
+      <div class="stat-item">
+    <div class="stat-icon">
+        <i data-lucide="badge-check"></i>
     </div>
-  </section>
+    <h3><span class="counter" data-count="15">0</span>+</h3>
+    <p>Years of Experience</p>
+</div>
 
+<div class="stat-item">
+    <div class="stat-icon">
+        <i data-lucide="building-2"></i>
+    </div>
+    <h3><span class="counter" data-count="320">0</span>+</h3>
+    <p>Projects Completed</p>
+</div>
+
+<div class="stat-item">
+    <div class="stat-icon">
+        <i data-lucide="users"></i>
+    </div>
+    <h3><span class="counter" data-count="98">0</span>%</h3>
+    <p>Client Satisfaction</p>
+</div>
+
+<div class="stat-item">
+    <div class="stat-icon">
+        <i data-lucide="award"></i>
+    </div>
+    <h3><span class="counter" data-count="25">0</span>+</h3>
+    <p>Industry Awards</p>
+</div>
+
+    </div>
+  </div>
+</section>
   <!-- SERVICES -->
   <section id="services">
     <div class="container">
@@ -2830,6 +2913,8 @@
       });
       document.addEventListener('mouseleave', () => spot.style.opacity = 0);
     }
+    // ===== Stat=====
+    
 
     // ===== Ripple on buttons =====
     function ripple(e) {
@@ -2941,6 +3026,9 @@
       setTimeout(() => toast.classList.remove('show'), 3200);
     });
   </script>
+  <script>
+lucide.createIcons();
+</script>
 </body>
 
 </html>
