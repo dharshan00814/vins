@@ -1,0 +1,1422 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VINS Construction | Contact</title>
+  <meta name="description" content="VINS Construction — premium residential, commercial, industrial and infrastructure construction. Contact us for your next project.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800;900&family=Inter:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap"
+    rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    /* ============ TOKENS ============ */
+    :root {
+      --black: #111111;
+      --black-deep: #0a0a0a;
+      --yellow: #F5B400;
+      --yellow-glow: #FFD873;
+      --white: #FFFFFF;
+      --gray-light: #F5F5F5;
+      --gray-mid: #8a8a8a;
+      --gray-line: rgba(255, 255, 255, 0.08);
+      --radius: 16px;
+      --display: 'Archivo', sans-serif;
+      --body: 'Inter', sans-serif;
+      --mono: 'Space Mono', monospace;
+      --ease: cubic-bezier(.22, .9, .3, 1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: var(--body);
+      background: var(--white);
+      color: var(--black);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button {
+      font-family: inherit;
+      cursor: pointer;
+      border: none;
+      background: none;
+    }
+
+    ul {
+      list-style: none;
+    }
+
+    .container {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 0 32px;
+    }
+
+    section {
+      position: relative;
+    }
+
+    ::selection {
+      background: var(--yellow);
+      color: var(--black);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation-duration: 0.001ms !important;
+        transition-duration: 0.001ms !important;
+      }
+    }
+
+    /* ============ LOADER ============ */
+    #loader {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: var(--black);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 18px;
+      transition: opacity .6s var(--ease), visibility .6s var(--ease);
+    }
+
+    #loader.hide {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .loader-mark {
+      font-family: var(--display);
+      font-weight: 900;
+      font-size: clamp(28px, 5vw, 44px);
+      color: var(--white);
+      letter-spacing: 2px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .loader-mark span {
+      color: var(--yellow);
+    }
+
+    .loader-bar {
+      width: 180px;
+      height: 2px;
+      background: var(--gray-line);
+      position: relative;
+      overflow: hidden;
+      border-radius: 2px;
+    }
+
+    .loader-bar::after {
+      content: '';
+      position: absolute;
+      left: -40%;
+      top: 0;
+      bottom: 0;
+      width: 40%;
+      background: var(--yellow);
+      animation: loaderMove 1.1s ease-in-out infinite;
+    }
+
+    @keyframes loaderMove {
+      0% {
+        left: -40%;
+      }
+
+      50% {
+        left: 60%;
+      }
+
+      100% {
+        left: 100%;
+      }
+    }
+
+    /* ============ CURSOR SPOTLIGHT ============ */
+    #spotlight {
+      position: fixed;
+      width: 420px;
+      height: 420px;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 5;
+      background: radial-gradient(circle, rgba(245, 180, 0, 0.06), transparent 70%);
+      transform: translate(-50%, -50%);
+      transition: opacity .3s ease;
+      opacity: 0;
+    }
+
+    /* ============ NAVBAR OVERHAUL ============ */
+    header {
+      position: fixed;
+      top: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: calc(100% - 48px);
+      max-width: 1200px;
+      z-index: 1000;
+      transition: all 0.4s var(--ease);
+    }
+
+    .nav-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      border-radius: 100px;
+      padding: 10px 14px;
+      box-shadow:
+        0 4px 20px rgba(0, 0, 0, 0.05),
+        0 15px 35px rgba(0, 0, 0, 0.08);
+      transition: all 0.4s var(--ease);
+    }
+
+    header.scrolled {
+      top: 14px;
+    }
+
+    header.scrolled .nav-container {
+      background: rgba(255, 255, 255, 0.98);
+      padding: 8px 12px;
+      border-color: rgba(0, 0, 0, 0.06);
+      box-shadow:
+        0 4px 25px rgba(0, 0, 0, 0.08),
+        0 20px 45px rgba(0, 0, 0, 0.12);
+    }
+
+    /* Logo & Brand Style */
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      padding-left: 8px;
+    }
+
+    .nav-logo img {
+      height: 34px;
+      width: auto;
+      object-fit: contain;
+      display: block;
+      transition: transform 0.3s var(--ease);
+    }
+
+    .nav-logo:hover img {
+      transform: scale(1.04);
+    }
+
+    /* Center Links Pill */
+    .nav-links-pill {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      background: rgba(0, 0, 0, 0.02);
+      border-radius: 100px;
+      padding: 4px 6px;
+    }
+
+    .nav-link-item {
+      position: relative;
+    }
+
+    .nav-link-item>a {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      color: rgba(17, 17, 17, 0.7);
+      font-size: 13.5px;
+      font-weight: 500;
+      padding: 8px 16px;
+      border-radius: 100px;
+      transition: all 0.3s ease;
+    }
+
+    .nav-link-item>a:hover {
+      color: var(--black);
+      background: rgba(0, 0, 0, 0.04);
+    }
+
+    .nav-link-item>a.active {
+      color: var(--black);
+      background: rgba(0, 0, 0, 0.08);
+    }
+
+    .nav-link-item .arrow {
+      font-size: 9px;
+      opacity: 0.6;
+      transition: transform 0.3s ease;
+    }
+
+    .nav-link-item:hover .arrow {
+      transform: translateY(1px);
+    }
+
+    /* Dropdown Menu styling */
+    .dropdown-menu {
+      position: absolute;
+      top: calc(100% + 12px);
+      left: 50%;
+      transform: translateX(-50%) translateY(10px);
+      background: rgba(255, 255, 255, 0.98);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      border-radius: 16px;
+      padding: 8px;
+      width: 170px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      opacity: 0;
+      visibility: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      transition: opacity 0.3s var(--ease), transform 0.3s var(--ease), visibility 0.3s;
+      z-index: 1001;
+    }
+
+    .dropdown-menu::before {
+      content: '';
+      position: absolute;
+      top: -6px;
+      left: 50%;
+      transform: translateX(-50%) rotate(45deg);
+      width: 12px;
+      height: 12px;
+      background: rgba(255, 255, 255, 0.98);
+      border-left: 1px solid rgba(0, 0, 0, 0.08);
+      border-top: 1px solid rgba(0, 0, 0, 0.08);
+    }
+
+    .dropdown:hover .dropdown-menu {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .dropdown-menu a {
+      color: rgba(17, 17, 17, 0.7);
+      font-size: 13px;
+      padding: 8px 14px;
+      border-radius: 8px;
+      transition: all 0.2s ease;
+      text-align: left;
+    }
+
+    .dropdown-menu a:hover {
+      color: var(--black);
+      background: rgba(0, 0, 0, 0.05);
+      padding-left: 18px;
+    }
+
+    /* Schedule Button */
+    .nav-schedule-btn {
+      background: var(--black);
+      color: var(--white);
+      padding: 10px 24px;
+      border-radius: 100px;
+      font-weight: 600;
+      font-size: 13.5px;
+      transition: all 0.3s var(--ease);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+      margin-right: 4px;
+    }
+
+    .nav-schedule-btn:hover {
+      transform: translateY(-1.5px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+      background: #2a2a2a;
+    }
+
+    /* Burger for mobile */
+    .burger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      z-index: 1100;
+      padding: 10px;
+      border-radius: 50%;
+      background: rgba(0, 0, 0, 0.04);
+      border: 1px solid rgba(0, 0, 0, 0.04);
+    }
+
+    .burger span {
+      width: 22px;
+      height: 2px;
+      background: var(--black);
+      border-radius: 2px;
+      transition: 0.3s;
+    }
+
+    .burger.active span:nth-child(1) {
+      transform: translateY(7px) rotate(45deg);
+    }
+
+    .burger.active span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .burger.active span:nth-child(3) {
+      transform: translateY(-7px) rotate(-45deg);
+    }
+
+    .mobile-menu {
+      position: fixed;
+      inset: 0;
+      background: rgba(10, 10, 10, 0.96);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      z-index: 1050;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
+      transform: translateY(-100%);
+      transition: transform 0.5s var(--ease);
+    }
+
+    .mobile-menu.open {
+      transform: translateY(0);
+    }
+
+    .mobile-menu a {
+      font-family: var(--display);
+      font-size: 24px;
+      font-weight: 600;
+      color: var(--white);
+      opacity: 0.85;
+      transition: all 0.3s;
+    }
+
+    .mobile-menu a:hover {
+      opacity: 1;
+      color: var(--yellow);
+      transform: scale(1.05);
+    }
+
+    /* Responsive Overrides */
+    @media (max-width: 768px) {
+      header {
+        top: 16px;
+        width: calc(100% - 32px);
+      }
+
+      .nav-links-pill,
+      .nav-schedule-btn {
+        display: none;
+      }
+
+      .burger {
+        display: flex;
+      }
+    }
+
+    /* ============ REVEAL UTIL ============ */
+    .reveal {
+      opacity: 0;
+      transform: translateY(34px);
+      transition: opacity .8s var(--ease), transform .8s var(--ease);
+    }
+
+    .reveal.in-view {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .reveal-scale {
+      opacity: 0;
+      transform: scale(.94);
+      transition: opacity .7s var(--ease), transform .7s var(--ease);
+    }
+
+    .reveal-scale.in-view {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    /* ============ SECTION HEADERS ============ */
+    .eyebrow-dark {
+      color: var(--yellow);
+      font-family: var(--mono);
+      font-size: 13px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .eyebrow-dark::before {
+      content: '';
+      width: 24px;
+      height: 1.5px;
+      background: var(--yellow);
+    }
+
+    .section-title {
+      font-family: var(--display);
+      font-weight: 800;
+      font-size: clamp(30px, 4vw, 48px);
+      letter-spacing: -0.5px;
+      line-height: 1.08;
+    }
+
+    .section-sub {
+      color: var(--gray-mid);
+      font-size: 16.5px;
+      max-width: 560px;
+      margin-top: 16px;
+      line-height: 1.7;
+    }
+
+    /* ============ CTA BANNER ============ */
+    .cta-banner {
+      position: relative;
+      min-height: 560px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      background: linear-gradient(rgba(0, 0, 0, .45), rgba(0, 0, 0, .45)),
+        url("https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=2000&q=80")
+        center center/cover no-repeat;
+    }
+
+    .cta-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        rgba(0, 0, 0, .45),
+        rgba(0, 0, 0, .45)
+      );
+    }
+
+    .cta-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      max-width: 900px;
+      padding: 0 18px;
+    }
+
+    .cta-content h2 {
+      color: #fff;
+      font-size: 76px;
+      line-height: 1.05;
+      font-weight: 700;
+      font-family: "Inter", sans-serif;
+      margin-bottom: 55px;
+      letter-spacing: -2px;
+    }
+
+    .cta-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 370px;
+      height: 72px;
+      background: #fff;
+      color: #111;
+      text-decoration: none;
+      font-size: 17px;
+      font-weight: 700;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      transition: .35s;
+      border-radius: 10px;
+    }
+
+    .cta-btn:hover {
+      background: #d7b46a;
+      color: #fff;
+    }
+
+    @media(max-width:992px) {
+      .cta-content h2 {
+        font-size: 58px;
+      }
+    }
+
+    @media(max-width:768px) {
+      .cta-banner {
+        min-height: 450px;
+        padding: 60px 20px;
+      }
+
+      .cta-content h2 {
+        font-size: 42px;
+        line-height: 1.15;
+        margin-bottom: 35px;
+      }
+
+      .cta-btn {
+        width: 100%;
+        max-width: 340px;
+        height: 62px;
+        font-size: 15px;
+        letter-spacing: 2px;
+      }
+    }
+
+    /* ============ CONTACT (UPDATED to match reference layout) ============ */
+    #contact {
+      padding: 140px 0;
+      background: var(--white);
+      color: var(--black);
+    }
+
+    .contact-hero {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+
+    .contact-hero-left {
+      padding-right: 10px;
+    }
+
+    .contact-hero-right {
+      position: relative;
+    }
+
+    .contact-hero-card {
+      border-radius: 26px;
+      overflow: hidden;
+      background: #0d0d0d;
+      color: #fff;
+      box-shadow: 0 25px 70px -25px rgba(0, 0, 0, .35);
+      border: 1px solid rgba(245, 180, 0, .18);
+    }
+
+    .contact-hero-card .img {
+      height: 240px;
+      background:
+        linear-gradient(rgba(0,0,0,.55), rgba(0,0,0,.55)),
+        url('https://i.pinimg.com/736x/98/05/21/980521ff0e50df1963fb681e643aa11f.jpg') center/cover no-repeat;
+    }
+
+    .contact-hero-card .content {
+      padding: 26px;
+    }
+
+    .contact-hero-card .kicker {
+      font-family: var(--mono);
+      color: rgba(255, 215, 128, .95);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      font-size: 12px;
+      margin-bottom: 10px;
+    }
+
+    .contact-hero-card h3 {
+      font-family: var(--display);
+      font-weight: 900;
+      font-size: 34px;
+      line-height: 1.1;
+      margin-bottom: 14px;
+      letter-spacing: -0.7px;
+    }
+
+    .contact-hero-card p {
+      color: rgba(255, 255, 255, .72);
+      font-size: 15px;
+      line-height: 1.8;
+      margin-bottom: 18px;
+    }
+
+    .contact-hero-card .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .contact-pill {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.10);
+      color: rgba(255, 255, 255, .82);
+      padding: 10px 14px;
+      border-radius: 999px;
+      font-family: var(--mono);
+      font-size: 12px;
+      letter-spacing: .6px;
+      display: inline-flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .contact-main-grid {
+      margin-top: 70px;
+      display: grid;
+      grid-template-columns: 0.95fr 1.05fr;
+      gap: 60px;
+      align-items: start;
+    }
+
+    .contact-info {
+      padding-top: 10px;
+    }
+
+    .info-row {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 24px;
+      align-items: flex-start;
+    }
+
+    .info-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 14px;
+      background: rgba(0,0,0,.04);
+      border: 1px solid rgba(0,0,0,.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      color: var(--yellow);
+      font-size: 18px;
+    }
+
+    .info-row .l {
+      font-size: 12px;
+      color: #666;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-family: var(--mono);
+      margin-top: 2px;
+    }
+
+    .info-row .v {
+      font-size: 15px;
+      font-weight: 700;
+      margin-top: 4px;
+      color: #111;
+    }
+
+    .map-box {
+      margin-top: 26px;
+      border-radius: 18px;
+      height: 240px;
+      border: 1px solid rgba(0,0,0,.08);
+      overflow: hidden;
+      background:
+        repeating-linear-gradient(45deg, rgba(0,0,0,.04) 0 2px, transparent 2px 14px),
+        linear-gradient(rgba(0,0,0,.03), rgba(0,0,0,.03));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #777;
+      font-family: var(--mono);
+      font-size: 13px;
+    }
+
+    .map-box iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      display: block;
+    }
+
+
+    .contact-form {
+      border-radius: 26px;
+      background: #0d0d0d;
+      color: #fff;
+      padding: 26px;
+      border: 1px solid rgba(245, 180, 0, .18);
+      box-shadow: 0 25px 70px -25px rgba(0, 0, 0, .25);
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 18px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .field.full {
+      grid-column: 1/-1;
+    }
+
+    .field label {
+      font-size: 12.5px;
+      color: rgba(255, 255, 255, 0.65);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-family: var(--mono);
+    }
+
+    .field input,
+    .field select,
+    .field textarea {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 12px;
+      padding: 14px 16px;
+      color: var(--white);
+      font-family: inherit;
+      font-size: 14.5px;
+      transition: .3s;
+    }
+
+    .field input:focus,
+    .field select:focus,
+    .field textarea:focus {
+      outline: none;
+      border-color: var(--yellow);
+      background: rgba(255, 255, 255, 0.09);
+    }
+
+    .field textarea {
+      resize: vertical;
+      min-height: 110px;
+    }
+
+    .form-note {
+      color: rgba(255, 255, 255, 0.65);
+      font-size: 13px;
+      margin-top: 10px;
+      line-height: 1.5;
+    }
+
+    /* Buttons (reuse look from index) */
+    .btn {
+      padding: 16px 32px;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 15px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: transform .35s var(--ease), box-shadow .35s var(--ease), background .3s;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid transparent;
+    }
+
+    .btn-primary {
+      background: var(--yellow);
+      color: var(--black);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 14px 34px rgba(245, 180, 0, 0.4);
+    }
+
+    .btn .ripple {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.5);
+      transform: scale(0);
+      animation: rippleAnim .6s ease-out;
+    }
+
+    @keyframes rippleAnim {
+      to {
+        transform: scale(3);
+        opacity: 0;
+      }
+    }
+
+    @media(max-width:1024px) {
+      .contact-hero {
+        grid-template-columns: 1fr;
+        gap: 30px;
+      }
+
+      .contact-main-grid {
+        grid-template-columns: 1fr;
+        gap: 26px;
+      }
+
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .field.full {
+        grid-column: auto;
+      }
+    }
+
+    /* ============ FOOTER ============ */
+    footer {
+      background: var(--black-deep);
+      color: rgba(255, 255, 255, .6);
+      padding: 80px 0 30px;
+      border-top: 1px solid var(--gray-line);
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr 1fr 1.2fr;
+      gap: 40px;
+      padding-bottom: 50px;
+    }
+
+    .footer-logo {
+      font-family: var(--display);
+      font-weight: 900;
+      color: var(--white);
+      font-size: 20px;
+      margin-bottom: 16px;
+    }
+
+    .footer-grid p {
+      font-size: 14px;
+      line-height: 1.7;
+      max-width: 280px;
+    }
+
+    .footer-col h5 {
+      color: var(--white);
+      font-size: 14px;
+      margin-bottom: 18px;
+      letter-spacing: .5px;
+    }
+
+    .footer-col li {
+      margin-bottom: 11px;
+      font-size: 14px;
+    }
+
+    .footer-col a:hover {
+      color: var(--yellow);
+    }
+
+    .newsletter {
+      display: flex;
+      margin-top: 16px;
+      border-radius: 999px;
+      overflow: hidden;
+      border: 1px solid var(--gray-line);
+    }
+
+    .newsletter input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      padding: 12px 16px;
+      color: var(--white);
+      font-size: 13.5px;
+    }
+
+    .newsletter input:focus {
+      outline: none;
+    }
+
+    .newsletter button {
+      background: var(--yellow);
+      color: var(--black);
+      padding: 12px 20px;
+      font-weight: 700;
+      font-size: 13px;
+    }
+
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 30px;
+      border-top: 1px solid var(--gray-line);
+      font-size: 13px;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .socials {
+      display: flex;
+      gap: 10px;
+    }
+
+    .socials a {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      border: 1px solid var(--gray-line);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      transition: .3s;
+    }
+
+    .socials a:hover {
+      background: var(--yellow);
+      color: var(--black);
+      border-color: var(--yellow);
+    }
+
+    #back-top {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 50px;
+      height: 50px;
+      background: var(--yellow);
+      color: var(--black);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      z-index: 900;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(10px);
+      transition: .4s var(--ease);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, .25);
+    }
+
+    #back-top.show {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: var(--black);
+      color: var(--white);
+      padding: 16px 28px;
+      border-radius: 999px;
+      font-size: 14px;
+      font-weight: 600;
+      z-index: 3000;
+      opacity: 0;
+      transition: .4s var(--ease);
+      border: 1px solid rgba(245, 180, 0, 0.4);
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .toast span {
+      color: var(--yellow);
+      margin-right: 6px;
+    }
+
+    @media (max-width:768px) {
+      .footer-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width:560px) {
+      .footer-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .container {
+        padding: 0 20px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div id="loader">
+    <div class="loader-mark">VINS<span>.</span></div>
+    <div class="loader-bar"></div>
+  </div>
+
+  <div id="spotlight"></div>
+
+  <header id="site-header">
+    <div class="nav-container">
+      <a href="index.html#hero" class="nav-logo">
+        <img src="logo.png" alt="VINS Construction Logo">
+      </a>
+
+      <div class="nav-links-pill">
+        <div class="nav-link-item">
+          <a href="index.html#hero" class="active">Home</a>
+        </div>
+        <div class="nav-link-item dropdown">
+          <a href="index.html#about">About <span class="arrow">▾</span></a>
+          <div class="dropdown-menu">
+            <a href="index.html#about">Our Story</a>
+            <a href="index.html#team">Our Team</a>
+            <a href="index.html#faq">FAQs</a>
+          </div>
+        </div>
+        <div class="nav-link-item dropdown">
+          <a href="index.html#services">Services <span class="arrow">▾</span></a>
+          <div class="dropdown-menu">
+            <a href="index.html#services">Residential</a>
+            <a href="index.html#services">Commercial</a>
+            <a href="index.html#services">Industrial</a>
+            <a href="index.html#services">Renovation</a>
+          </div>
+        </div>
+        <div class="nav-link-item dropdown">
+          <a href="index.html#projects">Projects <span class="arrow">▾</span></a>
+          <div class="dropdown-menu">
+            <a href="index.html#projects">All Projects</a>
+            <a href="index.html#projects">Completed</a>
+            <a href="index.html#projects">Ongoing</a>
+          </div>
+        </div>
+        <div class="nav-link-item">
+          <a href="index.html#testimonials">Testimonials</a>
+        </div>
+      </div>
+
+      <a href="#contact" class="nav-schedule-btn">Schedule</a>
+
+      <div class="burger" id="burger">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+  </header>
+
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="index.html#hero">Home</a>
+    <a href="index.html#about">About</a>
+    <a href="index.html#services">Services</a>
+    <a href="index.html#projects">Projects</a>
+    <a href="index.html#testimonials">Testimonials</a>
+    <a href="#contact">Contact</a>
+  </div>
+
+  <!-- CTA -->
+  <section class="cta-banner">
+    <div class="cta-overlay"></div>
+
+    <div class="cta-content reveal">
+      <h2>
+        Looking to build your dream
+        <br>
+        home?
+      </h2>
+
+      <a href="#contact" class="cta-btn" onclick="ripple(event)">BUILD YOUR DREAM HOME NOW</a>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="container">
+      <div class="contact-hero">
+        <div class="contact-hero-left reveal">
+          <div class="eyebrow-dark">Contact</div>
+          <h2 class="section-title">Let’s talk about your next landmark.</h2>
+          <p class="section-sub">Send your details and we’ll connect you with the right team for planning, estimating and execution.</p>
+        </div>
+
+        <div class="contact-hero-right reveal-scale" style="border-radius:26px;">
+          <div class="contact-hero-card">
+            <div class="img"></div>
+            <div class="content">
+              <div class="kicker">VINS Construction</div>
+              <h3>Fast response. Clear timelines.</h3>
+              <p>Tell us what you’re building. We’ll reply within 24 hours with next steps and a tailored consultation plan.</p>
+              <div class="pill-row">
+                <div class="contact-pill"><span>📞</span> +91 98765 43210</div>
+                <div class="contact-pill"><span>✉️</span> hello@vinsconstruction.com</div>
+                <div class="contact-pill"><span>📍</span> Nagercoil, TN</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="contact-main-grid">
+        <div class="contact-info reveal">
+          <div class="eyebrow-dark">Get In Touch</div>
+          <h3 style="font-family:var(--display); font-size:26px; margin-bottom:14px;">Let’s build something lasting.</h3>
+
+          <div class="info-row">
+            <div class="info-icon">📞</div>
+            <div>
+              <div class="l">Phone</div>
+              <div class="v">+91 98765 43210</div>
+            </div>
+          </div>
+
+          <div class="info-row">
+            <div class="info-icon">✉️</div>
+            <div>
+              <div class="l">Email</div>
+              <div class="v">hello@vinsconstruction.com</div>
+            </div>
+          </div>
+
+          <div class="info-row">
+            <div class="info-icon">📍</div>
+            <div>
+              <div class="l">Office</div>
+              <div class="v">Nagercoil, Tamil Nadu, India</div>
+            </div>
+          </div>
+
+          <div class="info-row">
+            <div class="info-icon">🕐</div>
+            <div>
+              <div class="l">Business Hours</div>
+              <div class="v">Mon–Sat, 9:00 AM – 7:00 PM</div>
+            </div>
+          </div>
+
+          <div class="map-box" aria-label="Google map">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3764.3474769043714!2d77.29457917478328!3d8.154366491876091!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3b04fb15342bf4cb%3A0x351a53c415aa51fc!2sVins_construction!5e1!3m2!1sen!2sin!4v1783842899655!5m2!1sen!2sin"
+              loading="lazy"
+              referrerpolicy="strict-origin-when-cross-origin"
+            ></iframe>
+          </div>
+
+        </div>
+
+        <div class="contact-form reveal">
+          <div class="eyebrow-dark" style="margin-bottom:8px;">Send a Request</div>
+          <h3 style="font-family:var(--display); font-size:26px; margin-bottom:0; letter-spacing:-0.4px;">Schedule a consultation</h3>
+
+          <form id="contactForm" style="margin-top:6px;">
+            <div class="form-grid">
+              <div class="field">
+                <label>Name</label>
+                <input type="text" required placeholder="Your full name">
+              </div>
+              <div class="field">
+                <label>Phone</label>
+                <input type="tel" required placeholder="Your phone number">
+              </div>
+              <div class="field">
+                <label>Email</label>
+                <input type="email" required placeholder="you@email.com">
+              </div>
+              <div class="field">
+                <label>Project Type</label>
+                <select required>
+                  <option value="Residential">Residential</option>
+                  <option value="Commercial">Commercial</option>
+                  <option value="Industrial">Industrial</option>
+                  <option value="Interior Design">Interior Design</option>
+                  <option value="Renovation">Renovation</option>
+                </select>
+              </div>
+              <div class="field full">
+                <label>Budget</label>
+                <select required>
+                  <option value="Under ₹25 Lakh">Under ₹25 Lakh</option>
+                  <option value="₹25–50 Lakh">₹25–50 Lakh</option>
+                  <option value="₹50 Lakh–1 Cr">₹50 Lakh–1 Cr</option>
+                  <option value="Above ₹1 Cr">Above ₹1 Cr</option>
+                </select>
+              </div>
+              <div class="field full">
+                <label>Message</label>
+                <textarea required placeholder="Tell us about your project"></textarea>
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="width:100%; justify-content:center; margin-top:10px;">
+              Submit Request
+            </button>
+
+            <p class="form-note">We usually respond within 24 hours.</p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-logo">VINS<span style="color:var(--yellow);">.</span>CONSTRUCTION</div>
+          <p>Building Trust. Creating Landmarks. Premium construction across residential, commercial, industrial and infrastructure sectors.</p>
+        </div>
+        <div class="footer-col">
+          <h5>Quick Links</h5>
+          <ul>
+            <li><a href="index.html#about">About</a></li>
+            <li><a href="index.html#services">Services</a></li>
+            <li><a href="index.html#projects">Projects</a></li>
+            <li><a href="index.html#testimonials">Testimonials</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h5>Services</h5>
+          <ul>
+            <li><a href="index.html#services">Residential</a></li>
+            <li><a href="index.html#services">Commercial</a></li>
+            <li><a href="index.html#services">Industrial</a></li>
+            <li><a href="index.html#services">Renovation</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h5>Newsletter</h5>
+          <p>Get project updates and construction tips.</p>
+          <div class="newsletter"><input type="email" placeholder="Your email"><button>Join</button></div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 VINS Construction. All rights reserved.</span>
+        <div class="socials"><a href="#">f</a><a href="#">in</a><a href="#">ig</a><a href="#">yt</a></div>
+      </div>
+    </div>
+  </footer>
+
+  <button id="back-top">↑</button>
+  <div class="toast" id="toast"><span>✓</span><span id="toastMsg">Request submitted</span></div>
+
+  <script>
+    // ===== Loader =====
+    window.addEventListener('load', () => {
+      setTimeout(() => { document.getElementById('loader').classList.add('hide'); }, 700);
+    });
+
+    // ===== Scroll header + back-to-top + active link highlighter =====
+    const header = document.getElementById('site-header');
+    const backTop = document.getElementById('back-top');
+    const sections = document.querySelectorAll('section');
+    const navLinks = document.querySelectorAll('.nav-link-item > a');
+
+    window.addEventListener('scroll', () => {
+      const st = window.scrollY;
+      header.classList.toggle('scrolled', st > 40);
+      backTop.classList.toggle('show', st > 600);
+
+      let currentSec = 'contact';
+      sections.forEach(sec => {
+        const top = sec.offsetTop - 150;
+        const height = sec.offsetHeight;
+        if (st >= top && st < top + height) currentSec = sec.getAttribute('id') || currentSec;
+      });
+
+      navLinks.forEach(link => {
+        const href = link.getAttribute('href');
+        if (!href) return;
+        const isCurrent = href.includes('#contact') || (currentSec === 'contact' && href.endsWith('#hero'));
+        link.classList.toggle('active', isCurrent);
+      });
+    });
+
+    backTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+    // ===== Mobile menu =====
+    const burger = document.getElementById('burger');
+    const mMenu = document.getElementById('mobileMenu');
+
+    burger.addEventListener('click', () => {
+      mMenu.classList.toggle('open');
+      burger.classList.toggle('active');
+    });
+
+    mMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+      mMenu.classList.remove('open');
+      burger.classList.remove('active');
+    }));
+
+    // ===== Cursor spotlight (desktop only) =====
+    if (window.matchMedia('(pointer:fine)').matches) {
+      const spot = document.getElementById('spotlight');
+      document.addEventListener('mousemove', e => {
+        spot.style.opacity = 1;
+        spot.style.left = e.clientX + 'px';
+        spot.style.top = e.clientY + 'px';
+      });
+      document.addEventListener('mouseleave', () => spot.style.opacity = 0);
+    }
+
+    // ===== Ripple on buttons/links =====
+    function ripple(e) {
+      const btn = e.currentTarget;
+      const circle = document.createElement('span');
+      const d = Math.max(btn.clientWidth, btn.clientHeight);
+      circle.style.width = circle.style.height = d + 'px';
+      circle.style.left = (e.clientX - btn.getBoundingClientRect().left - d / 2) + 'px';
+      circle.style.top = (e.clientY - btn.getBoundingClientRect().top - d / 2) + 'px';
+      circle.classList.add('ripple');
+      btn.appendChild(circle);
+      setTimeout(() => circle.remove(), 650);
+    }
+
+    document.querySelectorAll('.btn, .cta-btn').forEach(b => {
+      b.addEventListener('click', (ev) => {
+        if (ev.currentTarget.tagName.toLowerCase() === 'a') return; // avoid double ripple on navigation
+        ripple(ev);
+      });
+    });
+
+    // ===== Scroll reveal =====
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(en => {
+        if (en.isIntersecting) {
+          en.target.classList.add('in-view');
+          io.unobserve(en.target);
+        }
+      });
+    }, { threshold: 0.15 });
+
+    document.querySelectorAll('.reveal, .reveal-scale').forEach(el => io.observe(el));
+
+    // ===== Contact form (no backend) =====
+    const form = document.getElementById('contactForm');
+    const toast = document.getElementById('toast');
+
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      toast.classList.add('show');
+      form.reset();
+      setTimeout(() => toast.classList.remove('show'), 3200);
+    });
+  </script>
+  <script>
+    lucide.createIcons();
+  </script>
+</body>
+
+</html>
+
