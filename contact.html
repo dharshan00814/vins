@@ -1008,6 +1008,75 @@
       transition: .4s var(--ease);
       box-shadow: 0 10px 24px rgba(0, 0, 0, .25);
     }
+    .success-popup{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.5);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    visibility:hidden;
+    opacity:0;
+    transition:.3s;
+    z-index:9999;
+}
+
+.success-popup.show{
+    visibility:visible;
+    opacity:1;
+}
+
+.popup-box{
+    background:#fff;
+    padding:40px;
+    border-radius:24px;
+    width:380px;
+    text-align:center;
+    animation:pop .35s ease;
+}
+
+.checkmark{
+    width:80px;
+    height:80px;
+    margin:auto;
+    border-radius:50%;
+    background:#16a34a;
+    color:#fff;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:42px;
+    margin-bottom:20px;
+}
+
+.popup-box h3{
+    margin-bottom:10px;
+}
+
+.popup-box p{
+    color:#666;
+    margin-bottom:25px;
+}
+
+.popup-box button{
+    background:#f97316;
+    color:#fff;
+    border:none;
+    padding:14px 30px;
+    border-radius:12px;
+    cursor:pointer;
+}
+
+@keyframes pop{
+    from{
+        transform:scale(.7);
+        opacity:0;
+    }
+    to{
+        transform:scale(1);
+        opacity:1;
+    }
+}
 
     #back-top.show {
       opacity: 1;
@@ -1220,23 +1289,24 @@
           <div class="eyebrow-dark" style="margin-bottom:8px;">Send a Request</div>
           <h3 style="font-family:var(--display); font-size:26px; margin-bottom:0; letter-spacing:-0.4px;">Schedule a consultation</h3>
 
-          <form id="contactForm" style="margin-top:6px;">
+          <form id="contactForm" action="https://formsubmit.co/ajax/jdharshan2@gmail.com"
+                method="POST" style="margin-top:6px;">
             <div class="form-grid">
               <div class="field">
                 <label>Name</label>
-                <input type="text" required placeholder="Your full name">
+                <input type="text" name="name" required placeholder="Your full name">
               </div>
               <div class="field">
                 <label>Phone</label>
-                <input type="tel" required placeholder="Your phone number">
+                <input type="tel" name="phone" required placeholder="Your phone number">
               </div>
               <div class="field">
                 <label>Email</label>
-                <input type="email" required placeholder="you@email.com">
+                <input type="email" name="email" required placeholder="you@email.com">
               </div>
               <div class="field">
                 <label>Project Type</label>
-                <select required>
+                <select name="project_type" required>
                   <option value="Residential">Residential</option>
                   <option value="Commercial">Commercial</option>
                   <option value="Industrial">Industrial</option>
@@ -1246,7 +1316,7 @@
               </div>
               <div class="field full">
                 <label>Budget</label>
-                <select required>
+                <select name="budget" required>
                   <option value="Under ₹25 Lakh">Under ₹25 Lakh</option>
                   <option value="₹25–50 Lakh">₹25–50 Lakh</option>
                   <option value="₹50 Lakh–1 Cr">₹50 Lakh–1 Cr</option>
@@ -1255,7 +1325,7 @@
               </div>
               <div class="field full">
                 <label>Message</label>
-                <textarea required placeholder="Tell us about your project"></textarea>
+                <textarea name="message" required placeholder="Tell us about your project"></textarea>
               </div>
             </div>
 
@@ -1265,6 +1335,14 @@
 
             <p class="form-note">We usually respond within 24 hours.</p>
           </form>
+          <div id="successPopup" class="success-popup">
+            <div class="popup-box">
+             <div class="checkmark">✓</div>
+             <h3>Inquiry Sent!</h3>
+             <p>Thank you for contacting VINS Construction.</p>
+             <button onclick="closePopup()">OK</button>
+           </div>
+         </div>
         </div>
       </div>
     </div>
@@ -1389,7 +1467,53 @@
         ripple(ev);
       });
     });
+const form = document.getElementById("contactForm");
+const popup = document.getElementById("successPopup");
+const button = form.querySelector("button");
 
+form.addEventListener("submit", async function(e){
+
+    e.preventDefault();
+
+    button.disabled = true;
+    button.innerHTML = "Sending...";
+
+    const formData = new FormData(form);
+
+    try{
+
+        const response = await fetch(form.action,{
+            method:"POST",
+            body:formData
+        });
+
+        if(response.ok){
+
+            popup.classList.add("show");
+            form.reset();
+
+        }else{
+
+            alert("Failed to send inquiry.");
+
+        }
+
+    }catch(err){
+
+        alert("Something went wrong.");
+
+    }
+
+    button.disabled=false;
+    button.innerHTML="Submit Request";
+
+});
+
+function closePopup(){
+
+    popup.classList.remove("show");
+
+}
     // ===== Scroll reveal =====
     const io = new IntersectionObserver((entries) => {
       entries.forEach(en => {
@@ -1401,21 +1525,11 @@
     }, { threshold: 0.15 });
 
     document.querySelectorAll('.reveal, .reveal-scale').forEach(el => io.observe(el));
-
-    // ===== Contact form (no backend) =====
-    const form = document.getElementById('contactForm');
-    const toast = document.getElementById('toast');
-
-    form.addEventListener('submit', e => {
-      e.preventDefault();
-      toast.classList.add('show');
-      form.reset();
-      setTimeout(() => toast.classList.remove('show'), 3200);
-    });
   </script>
   <script>
     lucide.createIcons();
   </script>
+  
 </body>
 
 </html>

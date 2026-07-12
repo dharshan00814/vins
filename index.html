@@ -161,6 +161,16 @@
     }
 
     /* ============ SCROLL PROGRESS ============ */
+    #scroll-progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 3px;
+      background: var(--yellow);
+      z-index: 9999;
+      width: 0%;
+      transition: width 0.1s linear;
+    }
 
 
     /* ============ CURSOR SPOTLIGHT ============ */
@@ -2514,9 +2524,8 @@ padding:28px;
     <div class="loader-bar"></div>
   </div>
 
-
-
-  <header id="site-header">
+  <div id="scroll-progress"></div>
+  <div id="spotlight"></div>
     <div class="nav-container">
       <!-- Left: Logo & Brand -->
       <a href="#hero" class="nav-logo">
@@ -3180,7 +3189,7 @@ padding:28px;
 
             <h3>Request a Free Consultation</h3>
 
-            <form action="https://formsubmit.co/jdharshan2@gmail.com" method="POST">
+            <form id="contactForm" action="https://formsubmit.co/jdharshan2@gmail.com" method="POST">
 
                 <!-- Disable Captcha -->
                 <input type="hidden" name="_captcha" value="false">
@@ -3375,7 +3384,7 @@ padding:28px;
     document.querySelectorAll('.reveal, .reveal-scale').forEach(el => io.observe(el));
 
     // ===== Animated counters =====
-    const counters = document.querySelectorAll('.stat-num');
+    const counters = document.querySelectorAll('.counter');
     const counterIO = new IntersectionObserver((entries) => {
       entries.forEach(en => {
         if (en.isIntersecting) {
@@ -3452,15 +3461,8 @@ padding:28px;
       });
     });
 
-    // ===== Contact form (no backend) =====
+    // ===== Contact form =====
     const form = document.getElementById('contactForm');
-    const toast = document.getElementById('toast');
-    form.addEventListener('submit', e => {
-      e.preventDefault();
-      toast.classList.add('show');
-      form.reset();
-      setTimeout(() => toast.classList.remove('show'), 3200);
-    });
   </script>
   <script>
 lucide.createIcons();
