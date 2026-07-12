@@ -486,12 +486,12 @@
   .btn-ghost{background:rgba(255,255,255,0.08);color:#fff;border:1px solid rgba(255,255,255,0.3);backdrop-filter:blur(8px);}
   .btn-ghost:hover{background:rgba(255,255,255,0.18);transform:translateY(-3px);}
 
-  /* ================= FOOTER (index style) ================= */
+  /* ================= FOOTER (white) ================= */
   footer {
-    background: var(--black-deep);
-    color: rgba(255, 255, 255, .6);
+    background: #FFFFFF;
+    color: var(--ink-soft);
     padding: 80px 0 30px;
-    border-top: 1px solid var(--gray-line);
+    border-top: 1px solid var(--line);
   }
 
   .footer-grid {
@@ -504,7 +504,7 @@
   .footer-logo {
     font-family: var(--display);
     font-weight: 900;
-    color: var(--white);
+    color: var(--ink);
     font-size: 20px;
     margin-bottom: 16px;
   }
@@ -516,7 +516,7 @@
   }
 
   .footer-col h5 {
-    color: var(--white);
+    color: var(--ink);
     font-size: 14px;
     margin-bottom: 18px;
     letter-spacing: .5px;
@@ -524,14 +524,15 @@
 
   .footer-col li { margin-bottom: 11px; font-size: 14px; }
 
-  .footer-col a:hover { color: var(--yellow); }
+  .footer-col a { color: var(--ink-soft); }
+  .footer-col a:hover { color: var(--accent); }
 
   .newsletter {
     display: flex;
     margin-top: 16px;
     border-radius: 999px;
     overflow: hidden;
-    border: 1px solid var(--gray-line);
+    border: 1px solid var(--line);
   }
 
   .newsletter input {
@@ -539,15 +540,15 @@
     background: transparent;
     border: none;
     padding: 12px 16px;
-    color: var(--white);
+    color: var(--ink);
     font-size: 13.5px;
   }
 
   .newsletter input:focus { outline: none; }
 
   .newsletter button {
-    background: var(--yellow);
-    color: var(--black);
+    background: var(--accent);
+    color: #fff;
     padding: 12px 20px;
     font-weight: 700;
     font-size: 13px;
@@ -558,7 +559,7 @@
     justify-content: space-between;
     align-items: center;
     padding-top: 30px;
-    border-top: 1px solid var(--gray-line);
+    border-top: 1px solid var(--line);
     font-size: 13px;
     flex-wrap: wrap;
     gap: 16px;
@@ -570,7 +571,8 @@
     width: 38px;
     height: 38px;
     border-radius: 50%;
-    border: 1px solid var(--gray-line);
+    border: 1px solid var(--line);
+    color: var(--ink-soft);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -579,9 +581,9 @@
   }
 
   .socials a:hover {
-    background: var(--yellow);
-    color: var(--black);
-    border-color: var(--yellow);
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
   }
 
   #back-top {
