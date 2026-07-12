@@ -1589,92 +1589,184 @@ border-bottom:1px solid rgba(255,255,255,.08);
       width: 26px;
       border-radius: 5px;
     }
+/* ===============gallery================= */
+/*================ GALLERY ================*/
 
-    /* ============ TEAM ============ */
-    #team {
-      padding: 140px 0;
-      background: var(--white);
-    }
+.gallery-section{
+    padding:120px 7%;
+    background:#f7f7f5;
+}
 
-    .team-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 26px;
-    }
+.gallery-header{
+    text-align:center;
+    max-width:700px;
+    margin:auto auto 70px;
+}
 
-    .team-card {
-      border-radius: var(--radius);
-      overflow: hidden;
-      position: relative;
-      background: var(--gray-light);
-    }
+.gallery-tag{
+    display:inline-block;
+    color:#C58A2A;
+    letter-spacing:3px;
+    font-size:13px;
+    font-weight:600;
+    margin-bottom:18px;
+}
 
-    .team-photo {
-      aspect-ratio: 3/4;
-      overflow: hidden;
-    }
+.gallery-header h2{
+    font-size:58px;
+    line-height:1.1;
+    color:#111;
+    margin-bottom:18px;
+}
 
-    .team-photo img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform .8s var(--ease);
-    }
+.gallery-header p{
+    color:#666;
+    line-height:1.8;
+    font-size:17px;
+}
 
-    .team-card:hover .team-photo img {
-      transform: scale(1.1);
-    }
+.gallery-grid{
 
-    .team-info {
-      padding: 20px;
-    }
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:24px;
 
-    .team-info h4 {
-      font-size: 16.5px;
-      font-weight: 700;
-    }
+}
 
-    .team-info .role {
-      color: var(--yellow);
-      font-size: 12.5px;
-      font-family: var(--mono);
-      margin: 4px 0 8px;
-    }
+.gallery-item{
 
-    .team-info .exp {
-      color: var(--gray-mid);
-      font-size: 12.5px;
-    }
+    position:relative;
+    overflow:hidden;
+    border-radius:24px;
+    height:320px;
+    display:block;
 
-    .team-socials {
-      position: absolute;
-      top: 16px;
-      right: 16px;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      opacity: 0;
-      transform: translateX(10px);
-      transition: .4s var(--ease);
-    }
+}
 
-    .team-card:hover .team-socials {
-      opacity: 1;
-      transform: translateX(0);
-    }
+.gallery-item.large{
 
-    .team-socials a {
-      width: 34px;
-      height: 34px;
-      background: rgba(255, 255, 255, 0.9);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 13px;
-      font-weight: 700;
-    }
+    grid-column:span 2;
+    height:520px;
 
+}
+
+.gallery-item.wide{
+
+    grid-column:span 2;
+    height:360px;
+
+}
+
+.gallery-item img{
+
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    transition:.7s;
+
+}
+
+.gallery-item:hover img{
+
+    transform:scale(1.1);
+
+}
+
+.overlay{
+
+    position:absolute;
+    inset:0;
+    display:flex;
+    flex-direction:column;
+    justify-content:flex-end;
+    padding:35px;
+    background:linear-gradient(to top,
+    rgba(0,0,0,.85),
+    rgba(0,0,0,.15),
+    transparent);
+
+}
+
+.overlay span{
+
+    color:#d4a54f;
+    text-transform:uppercase;
+    letter-spacing:2px;
+    font-size:12px;
+    margin-bottom:10px;
+
+}
+
+.overlay h3{
+
+    color:#fff;
+    font-size:30px;
+    font-weight:600;
+
+}
+
+.gallery-item:hover .overlay{
+
+    background:linear-gradient(to top,
+    rgba(0,0,0,.92),
+    rgba(0,0,0,.3),
+    transparent);
+
+}
+
+.gallery-btn{
+
+    text-align:center;
+    margin-top:70px;
+
+}
+
+.gallery-btn a{
+
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    padding:18px 42px;
+    background:#111;
+    color:#fff;
+    text-decoration:none;
+    border-radius:50px;
+    transition:.35s;
+
+}
+
+.gallery-btn a:hover{
+
+    background:#C58A2A;
+
+}
+
+/*================ MOBILE ================*/
+
+@media(max-width:991px){
+
+.gallery-grid{
+
+grid-template-columns:1fr;
+
+}
+
+.gallery-item,
+.gallery-item.large,
+.gallery-item.wide{
+
+grid-column:unset;
+height:340px;
+
+}
+
+.gallery-header h2{
+
+font-size:42px;
+
+}
+
+}
     /* ============ AWARDS ============ */
     #awards {
       padding: 100px 0;
@@ -2998,60 +3090,85 @@ padding:28px;
   </section>
 
   <!-- TEAM -->
-  <section id="team">
-    <div class="container">
-      <div class="section-head reveal">
-        <div class="eyebrow-dark">Our People</div>
-        <h2 class="section-title">The team behind every build.</h2>
-      </div>
-      <div class="team-grid stagger">
-        <div class="team-card reveal">
-          <div class="team-socials"><a href="#">in</a><a href="#">tw</a></div>
-          <div class="team-photo"><img
-              src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=500&q=80"
-              alt="Founder"></div>
-          <div class="team-info">
-            <h4>Vincent Raj</h4>
-            <div class="role">Founder</div>
-            <div class="exp">18 yrs experience</div>
-          </div>
-        </div>
-        <div class="team-card reveal">
-          <div class="team-socials"><a href="#">in</a><a href="#">tw</a></div>
-          <div class="team-photo"><img
-              src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&w=500&q=80"
-              alt="Project Manager"></div>
-          <div class="team-info">
-            <h4>Divya Menon</h4>
-            <div class="role">Project Manager</div>
-            <div class="exp">12 yrs experience</div>
-          </div>
-        </div>
-        <div class="team-card reveal">
-          <div class="team-socials"><a href="#">in</a><a href="#">tw</a></div>
-          <div class="team-photo"><img
-              src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?auto=format&fit=crop&w=500&q=80"
-              alt="Civil Engineer"></div>
-          <div class="team-info">
-            <h4>Karthik Nair</h4>
-            <div class="role">Civil Engineer</div>
-            <div class="exp">10 yrs experience</div>
-          </div>
-        </div>
-        <div class="team-card reveal">
-          <div class="team-socials"><a href="#">in</a><a href="#">tw</a></div>
-          <div class="team-photo"><img
-              src="https://images.unsplash.com/photo-1552058544-f2b08422138a?auto=format&fit=crop&w=500&q=80"
-              alt="Site Supervisor"></div>
-          <div class="team-info">
-            <h4>Ramesh Pillai</h4>
-            <div class="role">Site Supervisor</div>
-            <div class="exp">14 yrs experience</div>
-          </div>
-        </div>
-      </div>
+   <!-- ================= PROJECT GALLERY ================= -->
+<section class="gallery-section">
+
+    <div class="gallery-header">
+
+        <span class="gallery-tag">OUR PROJECTS</span>
+
+        <h2>Building Excellence,<br>One Project At A Time.</h2>
+
+        <p>
+            Explore some of our completed residential, commercial,
+            renovation, and luxury construction projects.
+        </p>
+
     </div>
-  </section>
+
+    <div class="gallery-grid">
+
+        <!-- Large -->
+        <a href="#" class="gallery-item large">
+            <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200&q=80" alt="">
+            <div class="overlay">
+                <span>Luxury Villa</span>
+                <h3>Modern Family Residence</h3>
+            </div>
+        </a>
+
+        <!-- Card -->
+        <a href="#" class="gallery-item">
+            <img src="https://images.unsplash.com/photo-1484154218962-a197022b5858?w=900&q=80" alt="">
+            <div class="overlay">
+                <span>Interior</span>
+                <h3>Premium Living Room</h3>
+            </div>
+        </a>
+
+        <!-- Card -->
+        <a href="#" class="gallery-item">
+            <img src="https://images.unsplash.com/photo-1511818966892-d7d671e672a2?w=900&q=80" alt="">
+            <div class="overlay">
+                <span>Commercial</span>
+                <h3>Office Building</h3>
+            </div>
+        </a>
+
+        <!-- Card -->
+        <a href="#" class="gallery-item">
+            <img src="https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=900&q=80" alt="">
+            <div class="overlay">
+                <span>Residential</span>
+                <h3>Luxury Bedroom</h3>
+            </div>
+        </a>
+
+        <!-- Large -->
+        <a href="#" class="gallery-item wide">
+            <img src="https://images.unsplash.com/photo-1460317442991-0ec209397118?w=1200&q=80" alt="">
+            <div class="overlay">
+                <span>Construction</span>
+                <h3>Apartment Complex</h3>
+            </div>
+        </a>
+
+        <!-- Card -->
+        <a href="#" class="gallery-item">
+            <img src="https://images.unsplash.com/photo-1448630360428-65456885c650?w=900&q=80" alt="">
+            <div class="overlay">
+                <span>Renovation</span>
+                <h3>Modern Kitchen</h3>
+            </div>
+        </a>
+
+    </div>
+
+    <div class="gallery-btn">
+        <a href="#">View All Projects →</a>
+    </div>
+
+</section>
 
   <!-- AWARDS -->
   <section id="awards">
