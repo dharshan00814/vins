@@ -2603,6 +2603,95 @@ padding:28px;
         padding: 0 20px;
       }
     }
+
+    /* ============ MODERN POPUP ============ */
+    .popup-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10000;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.4s var(--ease);
+    }
+
+    .popup-overlay.show {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .popup-card {
+      background: var(--white);
+      border-radius: 24px;
+      padding: 48px 40px;
+      text-align: center;
+      max-width: 420px;
+      width: 90%;
+      box-shadow: 0 25px 80px rgba(0, 0, 0, 0.25);
+      transform: translateY(30px) scale(0.95);
+      transition: all 0.5s var(--ease);
+    }
+
+    .popup-overlay.show .popup-card {
+      transform: translateY(0) scale(1);
+    }
+
+    .popup-icon {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 24px;
+      border-radius: 50%;
+      background: #D1FAE5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: popBounce 0.6s var(--ease) 0.2s both;
+    }
+
+    @keyframes popBounce {
+      0% { transform: scale(0); }
+      50% { transform: scale(1.15); }
+      100% { transform: scale(1); }
+    }
+
+    .popup-card h3 {
+      font-family: var(--display);
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--black);
+      margin-bottom: 12px;
+      letter-spacing: -0.5px;
+    }
+
+    .popup-card p {
+      color: var(--gray-mid);
+      font-size: 15px;
+      line-height: 1.6;
+      margin-bottom: 32px;
+    }
+
+    .popup-btn {
+      background: var(--black);
+      color: var(--white);
+      border: none;
+      padding: 14px 48px;
+      border-radius: 100px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s var(--ease);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    }
+
+    .popup-btn:hover {
+      background: #2a2a2a;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+    }
   </style>
 </head>
 
@@ -3362,6 +3451,21 @@ padding:28px;
 
             </form>
 
+            <!-- Modern Success Popup -->
+            <div id="successPopup" class="popup-overlay">
+              <div class="popup-card">
+                <div class="popup-icon">
+                  <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+                    <circle cx="24" cy="24" r="24" fill="#10B981"/>
+                    <path d="M14 24.5L21 31.5L34 18.5" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+                <h3>Inquiry Sent Successfully!</h3>
+                <p>Thank you for contacting VINS Construction. We'll get back to you within 24 hours.</p>
+                <button onclick="closePopup()" class="popup-btn">Got it</button>
+              </div>
+            </div>
+
         </div>
 
     </div>
@@ -3578,21 +3682,31 @@ padding:28px;
 
     // ===== Contact form =====
     const form = document.getElementById('contactForm');
+    const popup = document.getElementById('successPopup');
+    const button = form.querySelector('button');
+
+    form.addEventListener('submit', function(e) {
+      button.disabled = true;
+      button.innerHTML = 'Sending...';
+
+      // Simulate submission delay for better UX
+      setTimeout(() => {
+        popup.classList.add('show');
+        form.reset();
+        button.disabled = false;
+        button.innerHTML = 'Send Inquiry →';
+      }, 800);
+    });
+
+    function closePopup() {
+      popup.classList.remove('show');
+    }
+
+    // Close popup on overlay click
+    popup.addEventListener('click', function(e) {
+      if (e.target === popup) closePopup();
+    });
   </script>
-  <script>
-lucide.createIcons();
-</script>
- <script>
-const form = document.querySelector(".contact-form form");
-const button = form.querySelector("button");
-
-form.addEventListener("submit", function () {
-
-    button.disabled = true;
-    button.innerHTML = "Sending...";
-
-});
-</script>
 </body>
 
 </html>

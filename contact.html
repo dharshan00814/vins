@@ -1008,75 +1008,153 @@
       transition: .4s var(--ease);
       box-shadow: 0 10px 24px rgba(0, 0, 0, .25);
     }
+/* ============ MODERN SUCCESS POPUP ============ */
     .success-popup{
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,.5);
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    visibility:hidden;
-    opacity:0;
-    transition:.3s;
-    z-index:9999;
-}
-
-.success-popup.show{
-    visibility:visible;
-    opacity:1;
-}
-
-.popup-box{
-    background:#fff;
-    padding:40px;
-    border-radius:24px;
-    width:380px;
-    text-align:center;
-    animation:pop .35s ease;
-}
-
-.checkmark{
-    width:80px;
-    height:80px;
-    margin:auto;
-    border-radius:50%;
-    background:#16a34a;
-    color:#fff;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    font-size:42px;
-    margin-bottom:20px;
-}
-
-.popup-box h3{
-    margin-bottom:10px;
-}
-
-.popup-box p{
-    color:#666;
-    margin-bottom:25px;
-}
-
-.popup-box button{
-    background:#f97316;
-    color:#fff;
-    border:none;
-    padding:14px 30px;
-    border-radius:12px;
-    cursor:pointer;
-}
-
-@keyframes pop{
-    from{
-        transform:scale(.7);
+        position:fixed;
+        inset:0;
+        background:rgba(0,0,0,.5);
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        visibility:hidden;
         opacity:0;
+        transition:.3s var(--ease);
+        z-index:9999;
+        padding:24px;
     }
-    to{
-        transform:scale(1);
+
+    .success-popup.show{
+        visibility:visible;
         opacity:1;
     }
-}
+
+    .popup-box{
+        background:#fff;
+        padding:40px;
+        border-radius:24px;
+        width:100%;
+        max-width:400px;
+        text-align:center;
+        animation:popIn .5s var(--ease) both;
+        position:relative;
+        overflow:hidden;
+        box-shadow:
+          0 8px 24px rgba(0,0,0,.08),
+          0 16px 48px rgba(0,0,0,.12),
+          0 0 0 1px rgba(0,0,0,.04);
+    }
+
+    .popup-box::before{
+        content:'';
+        position:absolute;
+        top:0;
+        left:0;
+        right:0;
+        height:4px;
+        background:linear-gradient(90deg, var(--yellow), #f97316, #16a34a);
+    }
+
+    .checkmark{
+        width:88px;
+        height:88px;
+        margin:0 auto 24px;
+        border-radius:50%;
+        background:linear-gradient(135deg, #16a34a, #15803d);
+        color:#fff;
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        font-size:44px;
+        font-weight:700;
+        box-shadow:
+          0 8px 24px rgba(22, 163, 74, .35),
+          0 0 0 4px rgba(22, 163, 74, .15);
+        animation:checkPop .6s var(--ease) .1s both;
+    }
+
+    .popup-box h3{
+        font-family:var(--display);
+        font-weight:800;
+        font-size:26px;
+        letter-spacing:-0.5px;
+        color:var(--black);
+        margin-bottom:12px;
+        animation:slideUp .5s var(--ease) .2s both;
+    }
+
+    .popup-box p{
+        color:var(--gray-mid);
+        font-size:15px;
+        line-height:1.7;
+        margin-bottom:32px;
+        animation:slideUp .5s var(--ease) .3s both;
+    }
+
+    .popup-box button{
+        background:var(--black);
+        color:var(--white);
+        border:none;
+        padding:16px 40px;
+        border-radius:100px;
+        cursor:pointer;
+        font-family:var(--body);
+        font-weight:600;
+        font-size:14.5px;
+        letter-spacing:0.5px;
+        transition:transform .3s var(--ease), box-shadow .3s var(--ease), background .3s;
+        animation:slideUp .5s var(--ease) .4s both;
+        box-shadow:0 4px 16px rgba(0,0,0,.12);
+    }
+
+    .popup-box button:hover{
+        transform:translateY(-2px);
+        box-shadow:0 8px 24px rgba(0,0,0,.18);
+        background:#2a2a2a;
+    }
+
+    .popup-box button:active{
+        transform:translateY(0);
+    }
+
+    @keyframes popIn{
+        from{
+            transform:scale(.92) translateY(12px);
+            opacity:0;
+        }
+        to{
+            transform:scale(1) translateY(0);
+            opacity:1;
+        }
+    }
+
+    @keyframes checkPop{
+        0%{
+            transform:scale(0) rotate(-10deg);
+            opacity:0;
+        }
+        50%{
+            transform:scale(1.15) rotate(3deg);
+        }
+        100%{
+            transform:scale(1) rotate(0);
+            opacity:1;
+        }
+    }
+
+    @keyframes slideUp{
+        from{
+            transform:translateY(16px);
+            opacity:0;
+        }
+        to{
+            transform:translateY(0);
+            opacity:1;
+        }
+    }
+
+    @keyframes spin{
+        to { transform: rotate(360deg); }
+    }
 
     #back-top.show {
       opacity: 1;
@@ -1335,14 +1413,14 @@
 
             <p class="form-note">We usually respond within 24 hours.</p>
           </form>
-          <div id="successPopup" class="success-popup">
+<div id="successPopup" class="success-popup">
             <div class="popup-box">
-             <div class="checkmark">✓</div>
-             <h3>Inquiry Sent!</h3>
-             <p>Thank you for contacting VINS Construction.</p>
-             <button onclick="closePopup()">OK</button>
-           </div>
-         </div>
+              <div class="checkmark">✓</div>
+              <h3>Inquiry Sent!</h3>
+              <p>Thank you for contacting VINS Construction.</p>
+              <button type="button" onclick="hidePopup()">OK</button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -1468,52 +1546,74 @@
       });
     });
 const form = document.getElementById("contactForm");
-const popup = document.getElementById("successPopup");
-const button = form.querySelector("button");
+    const popup = document.getElementById("successPopup");
+    const closeBtn = popup?.querySelector("button");
+    const submitBtn = form?.querySelector("button[type='submit']");
+    const toast = document.getElementById("toast");
+    const toastMsg = document.getElementById("toastMsg");
 
-form.addEventListener("submit", async function(e){
-
-    e.preventDefault();
-
-    button.disabled = true;
-    button.innerHTML = "Sending...";
-
-    const formData = new FormData(form);
-
-    try{
-
-        const response = await fetch(form.action,{
-            method:"POST",
-            body:formData
-        });
-
-        if(response.ok){
-
-            popup.classList.add("show");
-            form.reset();
-
-        }else{
-
-            alert("Failed to send inquiry.");
-
-        }
-
-    }catch(err){
-
-        alert("Something went wrong.");
-
+    function showToast(message, isError = false){
+      if(!toast || !toastMsg) return;
+      toastMsg.textContent = message;
+      toast.style.background = isError ? '#dc2626' : 'var(--black)';
+      toast.style.borderColor = isError ? '#ef4444' : 'rgba(245, 180, 0, 0.4)';
+      toast.classList.add("show");
+      setTimeout(() => toast.classList.remove("show"), 4500);
     }
 
-    button.disabled=false;
-    button.innerHTML="Submit Request";
+    function showPopup(){
+      if(popup) popup.classList.add("show");
+      document.body.style.overflow = 'hidden';
+    }
 
-});
+    function hidePopup(){
+      if(popup) popup.classList.remove("show");
+      document.body.style.overflow = '';
+    }
 
-function closePopup(){
+    if(closeBtn) closeBtn.addEventListener("click", hidePopup);
+    if(popup) popup.addEventListener("click", (e) => { if(e.target === popup) hidePopup(); });
+    document.addEventListener("keydown", (e) => { if(e.key === "Escape") hidePopup(); });
 
-    popup.classList.remove("show");
+    if(form){
+      form.addEventListener("submit", async function(e){
+        e.preventDefault();
 
-}
+        const formData = new FormData(form);
+        const submitBtn = form.querySelector("button[type='submit']");
+        const originalText = submitBtn?.innerHTML;
+
+        if(submitBtn){
+          submitBtn.disabled = true;
+          submitBtn.innerHTML = '<span class="spinner" style="display:inline-block;width:18px;height:18px;border:2px solid rgba(0,0,0,.2);border-top-color:#000;border-radius:50%;animation:spin .8s linear infinite;margin-right:10px;"></span>Sending...';
+        }
+
+        try{
+          const response = await fetch(form.action, {
+            method: "POST",
+            body: formData,
+            headers: { 'Accept': 'application/json' }
+          });
+
+          if(response.ok){
+            form.reset();
+            showPopup();
+            showToast("Inquiry sent successfully!");
+          }else{
+            const data = await response.json().catch(() => ({}));
+            showToast(data.message || "Failed to send inquiry. Please try again.", true);
+          }
+        }catch(err){
+          showToast("Network error. Please check your connection and try again.", true);
+        }finally{
+          if(submitBtn){
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = originalText;
+          }
+        }
+      });
+    }
+
     // ===== Scroll reveal =====
     const io = new IntersectionObserver((entries) => {
       entries.forEach(en => {

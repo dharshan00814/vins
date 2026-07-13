@@ -373,6 +373,79 @@
   .modal-submit:hover{background:var(--accent-dark);}
   .form-error{color:#C0392B;font-size:12.5px;margin-top:-6px;margin-bottom:10px;display:none;}
 
+  /* ---------- MODERN TOAST / POPUP NOTIFICATIONS ---------- */
+  .toast-container {
+    position: fixed;
+    top: 24px;
+    right: 24px;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    pointer-events: none;
+  }
+
+  .toast {
+    pointer-events: auto;
+    background: #fff;
+    border-radius: 16px;
+    padding: 18px 24px;
+    box-shadow: 0 20px 50px rgba(0,0,0,.15), 0 0 0 1px rgba(0,0,0,.04);
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    max-width: 400px;
+    width: calc(100% - 48px);
+    transform: translateX(120%);
+    transition: transform .4s cubic-bezier(.22,.9,.3,1);
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--navy);
+  }
+
+  .toast.show { transform: translateX(0); }
+
+  .toast.success { border-left: 4px solid #16a34a; }
+  .toast.error { border-left: 4px solid #dc2626; }
+  .toast.info { border-left: 4px solid var(--accent); }
+
+  .toast-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+
+  .toast.success .toast-icon { background: #D1FAE5; }
+  .toast.error .toast-icon { background: #FEE2E2; }
+  .toast.info .toast-icon { background: #FFEDE0; }
+
+  .toast-content { flex: 1; }
+  .toast-title { font-weight: 700; font-size: 14px; margin-bottom: 2px; }
+  .toast-message { font-size: 13px; color: var(--gray); line-height: 1.4; }
+
+  .toast-close {
+    background: none;
+    border: none;
+    font-size: 18px;
+    color: var(--gray);
+    cursor: pointer;
+    padding: 4px;
+    line-height: 1;
+    border-radius: 6px;
+    transition: .2s;
+  }
+  .toast-close:hover { background: #f3f4f6; }
+
+  @media (max-width: 600px) {
+    .toast-container { top: 12px; right: 12px; left: 12px; }
+    .toast { max-width: 100%; width: 100%; }
+  }
+
   /* ---------- MODAL: PLAYER ---------- */
   .player-backdrop{
     position:fixed;inset:0;
@@ -447,12 +520,15 @@
   <div class="empty-note" id="emptyNote" style="display:none;">No walkthroughs in this category yet.</div>
 </div>
 
-<div class="load-more-wrap">
-  <button class="load-more-btn" id="loadMoreBtn">Load more project videos</button>
-  <p id="countLabel"></p>
-</div>
+  <div class="load-more-wrap">
+    <button class="load-more-btn" id="loadMoreBtn">Load more project videos</button>
+    <p id="countLabel"></p>
+  </div>
 
-<div class="features-section">
+  <!-- Toast Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <div class="features-section">
   <div class="features-header">
     <span class="eyebrow">WHAT YOU WILL SEE</span>
     <h2>What Our Project Videos Consistently Show</h2>
@@ -703,6 +779,36 @@
     }
   });
 
+  render();
+
+  // ===== Modern Toast Notifications =====
+  const toastContainer = document.getElementById('toastContainer');
+
+  function showToast(type, title, message) {
+    const toast = document.createElement('div');
+    toast.className = `toast ${type}`;
+
+    const icons = { success: '✓', error: '✕', info: 'ℹ' };
+
+    toast.innerHTML = `
+      <div class="toast-icon">${icons[type] || 'ℹ'}</div>
+      <div class="toast-content">
+        <div class="toast-title">${title}</div>
+        <div class="toast-message">${message}</div>
+      </div>
+      <button class="toast-close" onclick="this.parentElement.classList.remove('show'); setTimeout(() => this.parentElement.remove(), 400);">&times;</button>
+    `;
+
+    toastContainer.appendChild(toast);
+    requestAnimationFrame(() => requestAnimationFrame(() => toast.classList.add('show')));
+
+    setTimeout(() => {
+      toast.classList.remove('show');
+      setTimeout(() => toast.remove(), 400);
+    }, 4000);
+  }
+
+  // Update form submit to use modern toasts
   document.getElementById('addVideoForm').addEventListener('submit', e => {
     e.preventDefault();
     const formError = document.getElementById('formError');
@@ -716,18 +822,33 @@
 
     if(activeSource === 'upload'){
       const file = videoFileInput.files[0];
-      if(!file){ formError.textContent = 'Please choose a video file to upload.'; formError.style.display = 'block'; return; }
+      if(!file){
+        formError.textContent = 'Please choose a video file to upload.';
+        formError.style.display = 'block';
+        showToast('error', 'Upload Error', 'Please choose a video file to upload.');
+        return;
+      }
       entry.url = URL.createObjectURL(file);
       entry.thumb = thumbInput || seedThumb(Math.floor(Math.random()*999));
     } else if(activeSource === 'youtube'){
       const url = document.getElementById('youtubeUrl').value.trim();
       const id = youtubeId(url);
-      if(!id){ formError.textContent = 'Please paste a valid YouTube video URL.'; formError.style.display = 'block'; return; }
+      if(!id){
+        formError.textContent = 'Please paste a valid YouTube video URL.';
+        formError.style.display = 'block';
+        showToast('error', 'Invalid URL', 'Please paste a valid YouTube video URL.');
+        return;
+      }
       entry.url = url;
       entry.thumb = thumbInput || `https://img.youtube.com/vi/${id}/hqdefault.jpg`;
     } else if(activeSource === 'instagram'){
       const url = document.getElementById('instagramUrl').value.trim();
-      if(!url.includes('instagram.com')){ formError.textContent = 'Please paste a valid Instagram post/reel URL.'; formError.style.display = 'block'; return; }
+      if(!url.includes('instagram.com')){
+        formError.textContent = 'Please paste a valid Instagram post/reel URL.';
+        formError.style.display = 'block';
+        showToast('error', 'Invalid URL', 'Please paste a valid Instagram post/reel URL.');
+        return;
+      }
       entry.url = url;
       entry.thumb = thumbInput || seedThumb(Math.floor(Math.random()*999));
     }
@@ -742,7 +863,12 @@
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
     document.querySelector('.tab-btn[data-filter="all"]').classList.add('active');
     render();
+
+    showToast('success', 'Video Added', `"${entry.code}" has been added to the library.`);
   });
+
+  // Show info toast on page load
+  setTimeout(() => showToast('info', 'Welcome', 'Browse project walkthroughs or add your own videos.'), 1000);
 
   render();
 </script>
