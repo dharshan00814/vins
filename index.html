@@ -795,41 +795,93 @@
     align-items:center;
     justify-content:center;
 
-    border:1px solid rgba(245,180,0,.15);
+    border:1.5px solid rgba(245,180,0,.25);
     border-radius:50%;
 
     background:linear-gradient(
-        180deg,
-        rgba(255,255,255,.04),
-        rgba(255,255,255,.01)
+        160deg,
+        rgba(245,180,0,.12) 0%,
+        rgba(245,180,0,.04) 50%,
+        rgba(255,255,255,.02) 100%
     );
 
     box-shadow:
-        inset 0 1px 0 rgba(255,255,255,.08),
-        0 12px 30px rgba(0,0,0,.35);
+        0 0 0 4px rgba(245,180,0,.06),
+        0 0 30px rgba(245,180,0,.15),
+        0 12px 30px rgba(0,0,0,.35),
+        inset 0 1px 0 rgba(255,255,255,.1);
 
-    transition:.45s cubic-bezier(.2,.8,.2,1);
+    transition:.5s cubic-bezier(.2,.8,.2,1);
+
+    position:relative;
+    overflow:hidden;
+}
+
+.stat-icon::before{
+    content:'';
+    position:absolute;
+    inset:-50%;
+    background:conic-gradient(
+        from 0deg,
+        transparent,
+        rgba(245,180,0,.15),
+        transparent,
+        rgba(245,180,0,.08),
+        transparent
+    );
+    animation:iconShimmer 4s linear infinite;
+}
+
+.stat-icon::after{
+    content:'';
+    position:absolute;
+    top:6px;
+    left:50%;
+    transform:translateX(-50%);
+    width:16px;
+    height:6px;
+    background:rgba(245,180,0,.3);
+    border-radius:50%;
+    filter:blur(4px);
+}
+
+@keyframes iconShimmer{
+    to{transform:rotate(360deg);}
+}
+
+.stat-icon svg,
+.stat-icon i{
+    position:relative;
+    z-index:2;
 }
 
 .stat-icon svg{
-    width:34px;
-    height:34px;
-    stroke:#d9b36c;
-    stroke-width:1.7;
+    width:32px;
+    height:32px;
+    stroke:#e0b860;
+    stroke-width:2;
+    filter:drop-shadow(0 0 6px rgba(245,180,0,.35));
 }
 
 .stat-item:hover .stat-icon{
-    transform:translateY(-6px) scale(1.06);
+    transform:translateY(-8px) scale(1.08);
 
-    border-color:#d9b36c;
+    border-color:#e0b860;
 
     box-shadow:
-        inset 0 1px 0 rgba(255,255,255,.12),
-        0 18px 40px rgba(217,179,108,.18);
+        0 0 0 8px rgba(245,180,0,.1),
+        0 0 50px rgba(245,180,0,.25),
+        0 20px 45px rgba(245,180,0,.2),
+        inset 0 1px 0 rgba(255,255,255,.15);
+}
+
+.stat-item:hover .stat-icon::before{
+    animation-duration:2s;
 }
 
 .stat-item:hover .stat-icon svg{
     stroke:#f5c978;
+    filter:drop-shadow(0 0 10px rgba(245,180,0,.5));
 }
 
 .stats-card{
@@ -860,12 +912,6 @@
     border-right:1px solid rgba(255,255,255,.08);
 }
 
-.stat-icon{
-    font-size:34px;
-    margin-bottom:18px;
-    color:#F5B400;
-}
-
 .stat-item h3{
     font-family:var(--display);
     color:#F5B400;
@@ -873,6 +919,35 @@
     font-weight:700;
     line-height:1;
     margin-bottom:12px;
+}
+
+.premium-badge{
+    position:absolute;
+    top:-6px;
+    right:-8px;
+    width:26px;
+    height:26px;
+    background:linear-gradient(135deg,#F5B400,#D4941A);
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    z-index:3;
+    box-shadow:0 3px 10px rgba(245,180,0,.5);
+    animation:badgePulse 2.5s ease-in-out infinite;
+}
+
+.premium-badge svg{
+    width:14px;
+    height:14px;
+    stroke:#fff;
+    stroke-width:2.5;
+    filter:none;
+}
+
+@keyframes badgePulse{
+    0%,100%{box-shadow:0 3px 10px rgba(245,180,0,.5);}
+    50%{box-shadow:0 3px 20px rgba(245,180,0,.8),0 0 30px rgba(245,180,0,.3);}
 }
 
 .stat-item p{
@@ -907,6 +982,18 @@ margin-top:-40px;
 padding-bottom:60px;
 }
 
+.premium-badge{
+    width:20px;
+    height:20px;
+    top:-4px;
+    right:-6px;
+}
+
+.premium-badge svg{
+    width:11px;
+    height:11px;
+}
+
 .stats-card{
 grid-template-columns:repeat(2,1fr);
 border-radius:22px;
@@ -917,32 +1004,32 @@ padding:24px 14px;
 }
 
 .stat-item h3{
-font-size:28px;
-margin-bottom:6px;
+    font-size:28px;
+    margin-bottom:6px;
 }
 
 .stat-item p{
-font-size:11px;
-letter-spacing:.1px;
+    font-size:11px;
+    letter-spacing:.1px;
 }
 
 .stat-icon{
-width:52px;
-height:52px;
-margin-bottom:14px;
+    width:52px;
+    height:52px;
+    margin-bottom:14px;
 }
 
 .stat-icon svg{
-width:26px;
-height:26px;
+    width:26px;
+    height:26px;
 }
 
 .stat-item:nth-child(odd){
-border-right:1px solid rgba(255,255,255,.08);
+    border-right:1px solid rgba(255,255,255,.08);
 }
 
 .stat-item:nth-child(-n+2){
-border-bottom:1px solid rgba(255,255,255,.08);
+    border-bottom:1px solid rgba(255,255,255,.08);
 }
 
 }
@@ -2787,7 +2874,7 @@ padding:28px;
   </section>
 
   <!-- STATS -->
-  <!-- ================= STATS ================= -->
+<!-- ================= STATS ================= -->
 <section id="stats">
   <div class="container">
     <div class="stats-card">
@@ -2795,22 +2882,25 @@ padding:28px;
       <div class="stat-item">
     <div class="stat-icon">
         <i data-lucide="badge-check"></i>
+        
     </div>
-    <h3><span class="counter" data-count="15">0</span>+</h3>
+    <h3><span class="counter" data-count="15">0</span></h3>
     <p>Years of Experience</p>
 </div>
 
 <div class="stat-item">
     <div class="stat-icon">
         <i data-lucide="building-2"></i>
+       
     </div>
-    <h3><span class="counter" data-count="320">0</span>+</h3>
+    <h3><span class="counter" data-count="320">0</span></h3>
     <p>Projects Completed</p>
 </div>
 
 <div class="stat-item">
     <div class="stat-icon">
         <i data-lucide="users"></i>
+        
     </div>
     <h3><span class="counter" data-count="98">0</span>%</h3>
     <p>Client Satisfaction</p>
@@ -2819,6 +2909,7 @@ padding:28px;
 <div class="stat-item">
     <div class="stat-icon">
         <i data-lucide="award"></i>
+       
     </div>
     <h3><span class="counter" data-count="25">0</span>+</h3>
     <p>Industry Awards</p>
@@ -3515,8 +3606,9 @@ padding:28px;
   <button id="back-top">↑</button>
   <div class="toast" id="toast"><span>✓</span><span id="toastMsg">Request submitted</span></div>
 
-  <script>
-    // ===== Loader =====
+    <script>
+      lucide.createIcons();
+      // ===== Loader =====
     window.addEventListener('load', () => {
       setTimeout(() => { document.getElementById('loader').classList.add('hide'); }, 700);
     });
