@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Interactive Bento Gallery</title>
+<title>Build & Interior Gallery</title>
 <style>
   :root{
     --bg:#FFF7F1;
@@ -16,14 +16,16 @@
     --border:#ECE1D6;
     --radius-lg:20px;
     --radius-md:14px;
+    --gap:16px;
+    --row:190px;
   }
   *{box-sizing:border-box;margin:0;padding:0;}
-  body{font-family:'Inter',sans-serif;background:var(--bg-soft);color:var(--navy);min-height:100vh;}
-  h1,h2,h3{font-family:'Poppins',sans-serif;}
+  body{font-family:'Inter',Arial,sans-serif;background:var(--bg-soft);color:var(--navy);min-height:100vh;}
+  h1,h2,h3{font-family:'Poppins','Inter',sans-serif;}
   button{font-family:inherit;cursor:pointer;}
   img,video{display:block;max-width:100%;}
 
-  /* Gallery Header */
+  /* Header */
   .gallery-header{text-align:center;padding:48px 16px 28px;}
   .gallery-header h1{
     font-size:clamp(26px,4vw,38px);font-weight:800;
@@ -36,22 +38,25 @@
     max-width:560px;margin-left:auto;margin-right:auto;line-height:1.6;
   }
 
-  /* Bento Grid */
+  /* Bento Grid — dense auto-flow prevents holes when items are removed/reordered non-sequentially */
   .bento-grid{
     display:grid;
     grid-template-columns:repeat(4,1fr);
-    grid-auto-rows:80px;
-    gap:16px;
-    padding:0 24px 140px;
+    grid-auto-rows:var(--row);
     grid-auto-flow:dense;
-    width:100%;
+    gap:var(--gap);
+    padding:0 24px 140px;
+    max-width:1280px;
+    margin:0 auto;
   }
-  @media(max-width:1024px){.bento-grid{grid-template-columns:repeat(3,1fr);}}
+  @media(max-width:1024px){
+    .bento-grid{grid-template-columns:repeat(3,1fr);--row:170px;}
+  }
   @media(max-width:768px){
-    .bento-grid{grid-template-columns:repeat(2,1fr);grid-auto-rows:70px;padding:0 16px 140px;}
+    .bento-grid{grid-template-columns:repeat(2,1fr);--row:150px;padding:0 16px 140px;gap:12px;}
   }
   @media(max-width:480px){
-    .bento-grid{grid-template-columns:1fr;grid-auto-rows:180px;padding:0 12px 140px;}
+    .bento-grid{grid-template-columns:repeat(2,1fr);--row:130px;padding:0 12px 140px;gap:10px;}
   }
 
   .bento-item{
@@ -64,9 +69,12 @@
     touch-action:none;
     transition:transform .25s ease,box-shadow .25s ease;
     box-shadow:0 6px 20px rgba(23,34,51,.08);
+    width:100%;
+    height:100%;
   }
-  .bento-item:hover{transform:scale(1.02);box-shadow:0 12px 30px rgba(23,34,51,.14);}
-  .bento-item.dragging{opacity:.9;cursor:grabbing;z-index:10;}
+  .bento-item:hover{transform:scale(1.02);box-shadow:0 12px 30px rgba(23,34,51,.14);z-index:2;}
+  .bento-item.dragging{opacity:.35;cursor:grabbing;}
+  .bento-item.drop-target{outline:3px solid var(--accent);outline-offset:-3px;}
 
   .bento-item .media-wrap{position:absolute;inset:0;}
   .bento-item .media-wrap img,.bento-item .media-wrap video{width:100%;height:100%;object-fit:cover;}
@@ -75,7 +83,7 @@
     position:absolute;inset:0;
     display:flex;flex-direction:column;justify-content:flex-end;
     padding:14px;
-    background:linear-gradient(180deg,rgba(0,0,0,0) 40%,rgba(0,0,0,.7) 100%);
+    background:linear-gradient(180deg,rgba(0,0,0,0) 40%,rgba(0,0,0,.72) 100%);
     opacity:0;
     transition:opacity .25s ease;
     pointer-events:none;
@@ -83,10 +91,18 @@
   .bento-item:hover .item-info{opacity:1;}
   .bento-item .item-info h3{color:#fff;font-size:14px;font-weight:600;line-height:1.3;}
   .bento-item .item-info p{color:rgba(255,255,255,.75);font-size:12px;margin-top:4px;line-height:1.4;}
+  .bento-item .tag{
+    position:absolute;top:10px;left:10px;
+    background:rgba(23,34,51,.55);
+    color:#fff;font-size:10px;font-weight:600;letter-spacing:.04em;
+    text-transform:uppercase;
+    padding:4px 9px;border-radius:20px;
+    backdrop-filter:blur(4px);
+  }
 
   .bento-item.enter{animation:bentoIn .5s cubic-bezier(.22,.9,.3,1) both;}
   @keyframes bentoIn{
-    from{opacity:0;transform:translateY(30px) scale(.95);}
+    from{opacity:0;transform:translateY(24px) scale(.96);}
     to{opacity:1;transform:none;}
   }
 
@@ -97,13 +113,16 @@
   .span-2-2{grid-column:span 2;grid-row:span 2;}
 
   @media(max-width:768px){
-    .span-1-1,.span-2-1,.span-1-2,.span-2-2{grid-column:span 1;grid-row:span 1;}
+    .span-1-2{grid-row:span 2;}
+    .span-2-2{grid-row:span 2;}
+    .span-2-1{grid-column:span 2;grid-row:span 1;}
+    .span-1-1{grid-column:span 1;grid-row:span 1;}
   }
   @media(max-width:480px){
-    .span-1-1,.span-2-1,.span-1-2,.span-2-2{grid-column:span 1;grid-row:span 1;}
+    .span-1-2,.span-2-2,.span-2-1,.span-1-1{grid-column:span 1;grid-row:span 1;}
   }
 
-  /* Gallery Modal */
+  /* Modal */
   .modal-backdrop{
     position:fixed;inset:0;
     background:rgba(23,34,51,.75);
@@ -162,22 +181,24 @@
   .dock{
     position:fixed;z-index:200;
     bottom:20px;left:50%;transform:translateX(-50%);
-    touch-action:none;
+    max-width:94vw;
     display:flex;justify-content:center;
   }
   .dock-inner{
     display:flex;align-items:center;
     gap:10px;
     padding:8px 14px;
-    background:rgba(59,130,246,.25);
+    background:rgba(23,34,51,.55);
     backdrop-filter:blur(14px);
     -webkit-backdrop-filter:blur(14px);
-    border:1px solid rgba(255,255,255,.3);
+    border:1px solid rgba(255,255,255,.18);
     border-radius:20px;
     box-shadow:0 10px 30px rgba(0,0,0,.2);
-    cursor:grab;
+    overflow-x:auto;
+    max-width:100%;
+    scrollbar-width:none;
   }
-  .dock-inner:active{cursor:grabbing;}
+  .dock-inner::-webkit-scrollbar{display:none;}
   .dock-item{
     width:44px;height:44px;
     border-radius:12px;
@@ -189,7 +210,7 @@
     position:relative;
   }
   .dock-item img,.dock-item video{width:100%;height:100%;object-fit:cover;}
-  .dock-item.active{border-color:#fff;transform:translateY(-6px) scale(1.1);box-shadow:0 6px 16px rgba(0,0,0,.3);}
+  .dock-item.active{border-color:var(--accent);transform:translateY(-6px) scale(1.1);box-shadow:0 6px 16px rgba(0,0,0,.3);}
   .dock-item:not(.active):hover{transform:translateY(-4px) scale(1.05);}
   .dock-item .dock-overlay{
     position:absolute;inset:0;
@@ -197,41 +218,31 @@
     pointer-events:none;
   }
 
-  /* Buffering spinner */
-  .spinner{
-    position:absolute;inset:0;
-    display:flex;align-items:center;justify-content:center;
-    background:rgba(0,0,0,.1);
-  }
-  .spinner::after{
-    content:'';width:24px;height:24px;
-    border:3px solid rgba(255,255,255,.3);
-    border-top-color:#fff;
-    border-radius:50%;
-    animation:spin .7s linear infinite;
-  }
-  @keyframes spin{to{transform:rotate(360deg);}}
-
-  /* Drag ghost */
   .drag-ghost{
     position:fixed;z-index:50;pointer-events:none;
-    opacity:.85;
+    opacity:.9;
     border-radius:16px;
     overflow:hidden;
-    box-shadow:0 20px 40px rgba(0,0,0,.3);
+    box-shadow:0 20px 40px rgba(0,0,0,.35);
+  }
+  .drag-ghost img,.drag-ghost video{width:100%;height:100%;object-fit:cover;}
+
+  .hint{
+    text-align:center;color:var(--gray);font-size:12.5px;
+    margin:-6px auto 24px;
   }
 </style>
 </head>
 <body>
 
 <div class="gallery-header">
-  <h1>Gallery Shots Collection</h1>
-  <p>Drag and explore our curated collection of shots</p>
+  <h1>Build &amp; Interior Gallery</h1>
+  <p>Construction progress and home interior shots — drag any tile to reorder, click to view full size</p>
 </div>
+<p class="hint">Tip: press and hold a tile, then drag it over another to swap places</p>
 
 <div class="bento-grid" id="bentoGrid"></div>
 
-<!-- Gallery Modal -->
 <div class="modal-backdrop" id="galleryModal">
   <div class="modal-content">
     <button class="modal-close" id="modalClose">&times;</button>
@@ -240,41 +251,27 @@
   </div>
 </div>
 
-<!-- Dock -->
 <div class="dock" id="dock">
   <div class="dock-inner" id="dockInner"></div>
 </div>
 
 <script>
+// Media limited to construction work + home interior only (content as provided)
 const mediaItems = [
-  {id:1,type:"image",title:"Modern Exterior",desc:"Sleek modern home facade",url:"https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80",span:"span-1-2"},
-  {id:2,type:"video",title:"Living Room Walkthrough",desc:"Open plan living space tour",url:"https://cdn.pixabay.com/video/2020/05/25/40130-424930032_large.mp4",span:"span-2-2"},
-  {id:3,type:"image",title:"Cozy Bedroom",desc:"Warm inviting bedroom design",url:"https://images.unsplash.com/photo-1616594039964-ae9021a400a0?w=800&q=80",span:"span-1-2"},
-  {id:4,type:"image",title:"Kitchen Design",desc:"Modern kitchen interior",url:"https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=800&q=80",span:"span-2-1"},
-  {id:5,type:"video",title:"Backyard Garden",desc:"Lush garden and patio area",url:"https://cdn.pixabay.com/video/2024/07/24/222837_large.mp4",span:"span-1-2"},
-  {id:6,type:"image",title:"Minimalist Hallway",desc:"Clean hallway design",url:"https://images.unsplash.com/photo-1502005229762-cf1b2da7c5d6?w=800&q=80",span:"span-2-1"},
-  {id:7,type:"video",title:"Home Office Setup",desc:"Modern workspace tour",url:"https://cdn.pixabay.com/video/2020/07/30/46026-447087782_large.mp4",span:"span-1-2"},
-  {id:8,type:"image",title:"Luxury Bathroom",desc:"Elegant bathroom with tub",url:"https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=800&q=80",span:"span-1-1"},
-  {id:9,type:"image",title:"Home Exterior",desc:"Beautiful house facade",url:"https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80",span:"span-2-2"},
-  {id:10,type:"image",title:"Dining Room",desc:"Elegant dining space",url:"https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=800&q=80",span:"span-1-1"},
-  {id:11,type:"video",title:"Kitchen Renovation",desc:"Before and after kitchen",url:"https://cdn.pixabay.com/video/2020/05/25/40130-424930032_large.mp4",span:"span-2-1"},
-  {id:12,type:"image",title:"Bedroom Suite",desc:"Master bedroom design",url:"https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=800&q=80",span:"span-1-2"},
-  {id:13,type:"image",title:"Outdoor Deck",desc:"Spacious wooden deck",url:"https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=800&q=80",span:"span-2-1"},
-  {id:14,type:"image",title:"Modern Staircase",desc:"Contemporary stair design",url:"https://images.unsplash.com/photo-1600573472550-8090b5e0745e?w=800&q=80",span:"span-1-1"},
-  {id:15,type:"video",title:"Attic Conversion",desc:"Loft transformation tour",url:"https://cdn.pixabay.com/video/2024/07/24/222837_large.mp4",span:"span-1-2"},
-  {id:16,type:"image",title:"Pool Area",desc:"Infinity pool view",url:"https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=800&q=80",span:"span-2-2"},
-  {id:17,type:"image",title:"Garage Design",desc:"Modern garage interior",url:"https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80",span:"span-1-1"},
-  {id:18,type:"image",title:"Garden Pathway",desc:"Stone pathway garden",url:"https://images.unsplash.com/photo-1558904541-efa843a96f09?w=800&q=80",span:"span-1-2"},
-  {id:19,type:"video",title:"Basement Remodel",desc:"Finished basement walkthrough",url:"https://cdn.pixabay.com/video/2020/07/30/46026-447087782_large.mp4",span:"span-2-1"},
-  {id:20,type:"image",title:"Terrace View",desc:"Panoramic terrace design",url:"https://images.unsplash.com/photo-1600047509352-236bb1f3c4a9?w=800&q=80",span:"span-1-1"},
-  {id:21,type:"image",title:"Smart Home Tech",desc:"Integrated smart systems",url:"https://images.unsplash.com/photo-1558002038-1055907df295?w=800&q=80",span:"span-1-2"},
-  {id:22,type:"image",title:"Rooftop Lounge",desc:"Relaxing rooftop space",url:"https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800&q=80",span:"span-2-1"},
-  {id:23,type:"video",title:"Exterior Tour",desc:"Full property walkaround",url:"https://cdn.pixabay.com/video/2020/05/25/40130-424930032_large.mp4",span:"span-1-2"},
-  {id:24,type:"image",title:"Home Theater",desc:"Dedicated media room",url:"https://images.unsplash.com/photo-1593784991095-a8c8b59f01a1?w=800&q=80",span:"span-2-2"},
-  {id:25,type:"image",title:"Closet Organization",desc:"Walk-in closet design",url:"https://images.unsplash.com/photo-1595428774223-ef526241e22e?w=800&q=80",span:"span-1-1"},
-  {id:26,type:"image",title:"Fireplace Lounge",desc:"Cozy fireplace area",url:"https://images.unsplash.com/photo-1600585152220-90363fe7e115?w=800&q=80",span:"span-1-2"},
-  {id:27,type:"video",title:"Garden Oasis",desc:"Tropical garden retreat",url:"https://cdn.pixabay.com/video/2024/07/24/222837_large.mp4",span:"span-2-1"},
-  {id:28,type:"image",title:"Balcony View",desc:"City view balcony",url:"https://images.unsplash.com/photo-1600573472592-401b489a3cdc?w=800&q=80",span:"span-1-1"},
+  {id:0,type:"video",tag:"Video Tour",title:"Full Property Walkthrough",desc:"Complete video tour of the property",url:"https://videotourl.com/videos/1783937584870-a469ebde-be04-4a8f-9479-50435a35f945.mp4",span:"span-2-2"},
+  {id:1,type:"image",tag:"Exterior",title:"Modern Exterior",desc:"Sleek modern home facade",url:"https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80",span:"span-1-2"},
+  {id:3,type:"image",tag:"Interior",title:"Cozy Bedroom",desc:"Warm inviting bedroom design",url:"https://images.unsplash.com/photo-1616594039964-ae9021a400a0?w=800&q=80",span:"span-1-2"},
+  {id:4,type:"image",tag:"Interior",title:"Kitchen Design",desc:"Modern kitchen interior",url:"https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=800&q=80",span:"span-2-1"},
+  {id:6,type:"image",tag:"Interior",title:"Minimalist Hallway",desc:"Clean hallway design",url:"https://images.unsplash.com/photo-1502005229762-cf1b2da7c5d6?w=800&q=80",span:"span-2-1"},
+  {id:8,type:"image",tag:"Interior",title:"Luxury Bathroom",desc:"Elegant bathroom with tub",url:"https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=800&q=80",span:"span-1-1"},
+  {id:9,type:"image",tag:"Exterior",title:"Home Exterior",desc:"Beautiful house facade",url:"https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80",span:"span-2-2"},
+  {id:10,type:"image",tag:"Interior",title:"Dining Room",desc:"Elegant dining space",url:"https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=800&q=80",span:"span-1-1"},
+  {id:12,type:"image",tag:"Interior",title:"Bedroom Suite",desc:"Master bedroom design",url:"https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=800&q=80",span:"span-1-2"},
+  {id:13,type:"image",tag:"Exterior",title:"Outdoor Deck",desc:"Spacious wooden deck build",url:"https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=800&q=80",span:"span-2-1"},
+  {id:14,type:"image",tag:"Interior",title:"Modern Staircase",desc:"Contemporary stair design",url:"https://images.unsplash.com/photo-1600573472550-8090b5e0745e?w=800&q=80",span:"span-1-1"},
+  {id:16,type:"image",tag:"Exterior",title:"Pool Area",desc:"Infinity pool view",url:"https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=800&q=80",span:"span-2-2"},
+  {id:25,type:"image",tag:"Interior",title:"Closet Organization",desc:"Walk-in closet design",url:"https://images.unsplash.com/photo-1595428774223-ef526241e22e?w=800&q=80",span:"span-1-1"},
+  {id:28,type:"image",tag:"Exterior",title:"Balcony View",desc:"City view balcony",url:"https://images.unsplash.com/photo-1600573472592-401b489a3cdc?w=800&q=80",span:"span-1-1"},
 ];
 
 let items = [...mediaItems];
@@ -282,42 +279,36 @@ let selectedItem = null;
 let dragIndex = null;
 let dragStartPos = {x:0,y:0};
 let isDragging = false;
+let currentDropIndex = null;
 
 const grid = document.getElementById('bentoGrid');
 const modal = document.getElementById('galleryModal');
 const modalMedia = document.getElementById('modalMedia');
 const modalCaption = document.getElementById('modalCaption');
 const modalClose = document.getElementById('modalClose');
-const dock = document.getElementById('dock');
 const dockInner = document.getElementById('dockInner');
 
 function createBentoItem(item, index){
   const el = document.createElement('div');
   el.className = `bento-item ${item.span} enter`;
-  el.style.animationDelay = `${index * 0.06}s`;
+  el.style.animationDelay = `${index * 0.05}s`;
   el.dataset.id = item.id;
   el.dataset.index = index;
 
-  let mediaHTML = '';
-  if(item.type === 'video'){
-    mediaHTML = `<video src="${item.url}" muted loop playsinline preload="auto"></video>`;
-  } else {
-    mediaHTML = `<img src="${item.url}" alt="${item.title}" loading="lazy">`;
-  }
+  const mediaHTML = item.type === 'video'
+    ? `<video src="${item.url}" muted loop playsinline preload="metadata"></video>`
+    : `<img src="${item.url}" alt="${item.title}" loading="lazy">`;
 
   el.innerHTML = `
     <div class="media-wrap">${mediaHTML}</div>
+    <span class="tag">${item.tag}</span>
     <div class="item-info">
       <h3>${item.title}</h3>
       <p>${item.desc}</p>
     </div>
   `;
 
-  el.addEventListener('click', (e) => {
-    if(isDragging) return;
-    openModal(item);
-  });
-
+  el.addEventListener('click', () => { if(!isDragging) openModal(item); });
   el.addEventListener('mousedown', (e) => startDrag(e, index, el));
   el.addEventListener('touchstart', (e) => startDrag(e, index, el), {passive:false});
 
@@ -326,72 +317,48 @@ function createBentoItem(item, index){
 
 function renderGrid(){
   grid.innerHTML = '';
-  items.forEach((item, i) => {
-    grid.appendChild(createBentoItem(item, i));
-  });
+  items.forEach((item, i) => grid.appendChild(createBentoItem(item, i)));
   renderDock();
+  setTimeout(observeVideos, 50);
 }
 
 function renderDock(){
   dockInner.innerHTML = '';
-  items.forEach((item, i) => {
+  items.forEach((item) => {
     const dockItem = document.createElement('div');
     dockItem.className = `dock-item ${selectedItem && selectedItem.id === item.id ? 'active' : ''}`;
-    dockItem.dataset.index = i;
-    if(item.type === 'video'){
-      dockItem.innerHTML = `<video src="${item.url}" muted loop playsinline></video><div class="dock-overlay"></div>`;
-    } else {
-      dockItem.innerHTML = `<img src="${item.url}" alt="${item.title}"><div class="dock-overlay"></div>`;
-    }
-    dockItem.addEventListener('click', () => selectItem(item));
+    dockItem.innerHTML = item.type === 'video'
+      ? `<video src="${item.url}" muted loop playsinline></video><div class="dock-overlay"></div>`
+      : `<img src="${item.url}" alt="${item.title}"><div class="dock-overlay"></div>`;
+    dockItem.addEventListener('click', () => { selectedItem = item; openModal(item); renderDock(); });
     dockInner.appendChild(dockItem);
   });
 }
 
-function selectItem(item){
-  selectedItem = item;
-  openModal(item);
-  renderDock();
-}
-
 function openModal(item){
   selectedItem = item;
-  let mediaHTML = '';
-  if(item.type === 'video'){
-    mediaHTML = `<video src="${item.url}" controls autoplay playsinline></video>`;
-  } else {
-    mediaHTML = `<img src="${item.url}" alt="${item.title}">`;
-  }
-  modalMedia.innerHTML = mediaHTML;
+  modalMedia.innerHTML = item.type === 'video'
+    ? `<video src="${item.url}" controls autoplay playsinline></video>`
+    : `<img src="${item.url}" alt="${item.title}">`;
   modalCaption.innerHTML = `<h3>${item.title}</h3><p>${item.desc}</p>`;
   modal.classList.add('open');
   renderDock();
 }
-
 function closeModal(){
   modal.classList.remove('open');
   selectedItem = null;
   renderDock();
 }
-
 modalClose.addEventListener('click', closeModal);
-modal.addEventListener('click', (e) => {
-  if(e.target === modal) closeModal();
-});
-document.addEventListener('keydown', (e) => {
-  if(e.key === 'Escape') closeModal();
-});
+modal.addEventListener('click', (e) => { if(e.target === modal) closeModal(); });
+document.addEventListener('keydown', (e) => { if(e.key === 'Escape') closeModal(); });
 
-// Intersection Observer for video autoplay
 const videoObserver = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     const video = entry.target.querySelector('video');
     if(!video) return;
-    if(entry.isIntersecting){
-      video.play().catch(()=>{});
-    } else {
-      video.pause();
-    }
+    if(entry.isIntersecting) video.play().catch(()=>{});
+    else video.pause();
   });
 }, {rootMargin:'50px',threshold:0.1});
 
@@ -402,7 +369,7 @@ function observeVideos(){
   });
 }
 
-// Drag reordering
+// Drag reordering — uses real element geometry (not row/col math) so drop targets are always accurate
 function startDrag(e, index, el){
   e.preventDefault();
   const clientX = e.touches ? e.touches[0].clientX : e.clientX;
@@ -410,6 +377,23 @@ function startDrag(e, index, el){
   dragIndex = index;
   dragStartPos = {x:clientX, y:clientY};
   isDragging = false;
+  currentDropIndex = null;
+  let ghost = null;
+
+  function findDropIndex(cx, cy){
+    const nodes = Array.from(grid.children);
+    for(let i = 0; i < nodes.length; i++){
+      const r = nodes[i].getBoundingClientRect();
+      if(cx >= r.left && cx <= r.right && cy >= r.top && cy <= r.bottom){
+        return parseInt(nodes[i].dataset.index, 10);
+      }
+    }
+    return null;
+  }
+
+  function clearDropHighlight(){
+    grid.querySelectorAll('.drop-target').forEach(n => n.classList.remove('drop-target'));
+  }
 
   const onMove = (ev) => {
     const cx = ev.touches ? ev.touches[0].clientX : ev.clientX;
@@ -419,10 +403,17 @@ function startDrag(e, index, el){
     if(!isDragging && (dx > 8 || dy > 8)){
       isDragging = true;
       el.classList.add('dragging');
+      ghost = createGhost(el, cx, cy);
     }
     if(isDragging){
-      const ghost = createGhost(el, ev);
+      if(ev.cancelable) ev.preventDefault();
       moveGhost(ghost, cx, cy);
+      clearDropHighlight();
+      const idx = findDropIndex(cx, cy);
+      currentDropIndex = idx;
+      if(idx !== null && idx !== dragIndex){
+        grid.children[idx].classList.add('drop-target');
+      }
     }
   };
 
@@ -432,31 +423,18 @@ function startDrag(e, index, el){
     document.removeEventListener('touchmove', onMove);
     document.removeEventListener('touchend', onEnd);
     el.classList.remove('dragging');
-    removeGhost();
+    clearDropHighlight();
+    removeGhost(ghost);
 
-    if(isDragging){
-      const cx = ev.changedTouches ? ev.changedTouches[0].clientX : ev.clientX;
-      const cy = ev.changedTouches ? ev.changedTouches[0].clientY : ev.clientY;
-      const rect = grid.getBoundingClientRect();
-      const cols = window.innerWidth <= 480 ? 1 : window.innerWidth <= 768 ? 2 : window.innerWidth <= 1024 ? 3 : 4;
-      const rowHeight = window.innerWidth <= 480 ? 180 : window.innerWidth <= 768 ? 70 : 80;
-      const colWidth = rect.width / cols;
-      const offsetX = cx - rect.left;
-      const offsetY = cy - rect.top;
-      const targetCol = Math.floor(offsetX / colWidth);
-      const targetRow = Math.floor(offsetY / rowHeight);
-      const targetIndex = Math.min(Math.max(targetRow * cols + targetCol, 0), items.length - 1);
-
-      if(targetIndex !== dragIndex){
-        const moved = items[dragIndex];
-        items.splice(dragIndex, 1);
-        items.splice(targetIndex, 0, moved);
-      }
+    if(isDragging && currentDropIndex !== null && currentDropIndex !== dragIndex){
+      const moved = items[dragIndex];
+      items.splice(dragIndex, 1);
+      items.splice(currentDropIndex, 0, moved);
     }
     isDragging = false;
     dragIndex = null;
+    currentDropIndex = null;
     renderGrid();
-    setTimeout(observeVideos, 50);
   };
 
   document.addEventListener('mousemove', onMove);
@@ -465,30 +443,25 @@ function startDrag(e, index, el){
   document.addEventListener('touchend', onEnd);
 }
 
-let ghostEl = null;
-function createGhost(source, ev){
-  removeGhost();
-  ghostEl = source.cloneNode(true);
-  ghostEl.className = 'drag-ghost';
-  ghostEl.style.width = source.offsetWidth + 'px';
-  ghostEl.style.height = source.offsetHeight + 'px';
-  ghostEl.style.left = (ev.touches ? ev.touches[0].clientX : ev.clientX) - source.offsetWidth/2 + 'px';
-  ghostEl.style.top = (ev.touches ? ev.touches[0].clientY : ev.clientY) - source.offsetHeight/2 + 'px';
-  document.body.appendChild(ghostEl);
-  return ghostEl;
+function createGhost(source, cx, cy){
+  const g = source.cloneNode(true);
+  g.className = 'drag-ghost';
+  g.style.width = source.offsetWidth + 'px';
+  g.style.height = source.offsetHeight + 'px';
+  g.style.left = cx - source.offsetWidth/2 + 'px';
+  g.style.top = cy - source.offsetHeight/2 + 'px';
+  document.body.appendChild(g);
+  return g;
 }
 function moveGhost(ghost, x, y){
+  if(!ghost) return;
   ghost.style.left = x - ghost.offsetWidth/2 + 'px';
   ghost.style.top = y - ghost.offsetHeight/2 + 'px';
 }
-function removeGhost(){
-  if(ghostEl){ghostEl.remove();ghostEl=null;}
-}
+function removeGhost(ghost){ if(ghost) ghost.remove(); }
 
-// Initial render
 renderGrid();
-setTimeout(observeVideos, 100);
-window.addEventListener('resize', () => { renderGrid(); setTimeout(observeVideos, 50); });
+window.addEventListener('resize', () => renderGrid());
 </script>
 </body>
 </html>
