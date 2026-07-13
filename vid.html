@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Video Library — Project Walkthroughs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-cream:#FFF7F1;
+    --bg-cream-soft:#FFFDFB;
+    --accent:#ED6A2C;
+    --accent-dark:#D65A1F;
+    --navy:#172233;
+    --navy-soft:#4B5567;
+    --gray:#6C7686;
+    --border:#ECE1D6;
+    --card-shadow:0 10px 28px rgba(23,34,51,0.09);
+    --card-shadow-hover:0 18px 40px rgba(23,34,51,0.16);
+    --badge-completed-bg:#0F3B34;
+    --badge-completed-text:#BFE9DA;
+    --badge-construction-bg:#4A2E17;
+    --badge-construction-text:#F4C99A;
+    --features-bg:#EEF1F6;
+    --radius-lg:20px;
+    --radius-md:14px;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:'Inter',sans-serif;
+    color:var(--navy);
+    background:var(--bg-cream-soft);
+  }
+  h1,h2,h3{font-family:'Poppins',sans-serif;}
+  img{display:block;max-width:100%;}
+  button{font-family:inherit;cursor:pointer;}
+
+  /* ---------- HERO / HEADER ---------- */
+  .library-wrap{
+    background:linear-gradient(180deg,#FFF1E6 0%,#FFFDFB 40%);
+    padding:64px 24px 40px;
+  }
+  .library-header{
+    max-width:760px;
+    margin:0 auto;
+    text-align:center;
+  }
+  .eyebrow{
+    display:inline-block;
+    font-size:12px;
+    font-weight:700;
+    letter-spacing:.12em;
+    color:var(--accent-dark);
+    background:#FFE3CF;
+    padding:6px 16px;
+    border-radius:999px;
+    margin-bottom:18px;
+  }
+  .library-header h1{
+    font-size:clamp(28px,4vw,40px);
+    font-weight:800;
+    margin:0 0 14px;
+    line-height:1.15;
+  }
+  .library-header p{
+    color:var(--gray);
+    font-size:16px;
+    line-height:1.6;
+    margin:0 auto;
+    max-width:600px;
+  }
+
+  /* ---------- TOP CONTROLS: tabs + add button ---------- */
+  .controls-row{
+    max-width:960px;
+    margin:32px auto 0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:14px;
+    flex-wrap:wrap;
+  }
+  .tabs{
+    display:inline-flex;
+    background:#fff;
+    border:1px solid var(--border);
+    border-radius:999px;
+    padding:5px;
+    gap:4px;
+    box-shadow:0 4px 14px rgba(23,34,51,0.05);
+  }
+  .tab-btn{
+    border:none;
+    background:transparent;
+    padding:9px 20px;
+    border-radius:999px;
+    font-size:14px;
+    font-weight:600;
+    color:var(--navy-soft);
+    transition:.2s;
+  }
+  .tab-btn.active{
+    background:var(--bg-cream);
+    color:var(--accent-dark);
+  }
+  .add-video-btn{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    background:var(--navy);
+    color:#fff;
+    border:none;
+    padding:11px 22px;
+    border-radius:999px;
+    font-size:14px;
+    font-weight:600;
+    box-shadow:0 6px 16px rgba(23,34,51,0.18);
+    transition:.2s;
+  }
+  .add-video-btn:hover{background:#0E1622;transform:translateY(-1px);}
+
+  .hint-row{
+    text-align:center;
+    margin-top:18px;
+    font-size:13px;
+    color:var(--accent-dark);
+    font-weight:600;
+  }
+  .hint-row svg{vertical-align:-3px;margin-right:5px;}
+
+  /* ---------- GRID ---------- */
+  .grid-section{
+    max-width:1180px;
+    margin:0 auto;
+    padding:36px 24px 10px;
+  }
+  .video-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:22px;
+  }
+  @media (max-width:900px){ .video-grid{grid-template-columns:repeat(2,1fr);} }
+  @media (max-width:600px){ .video-grid{grid-template-columns:1fr;} }
+
+  .video-card{
+    position:relative;
+    border-radius:var(--radius-lg);
+    overflow:hidden;
+    aspect-ratio:4/3;
+    background:#ddd;
+    box-shadow:var(--card-shadow);
+    cursor:pointer;
+    transition:transform .25s ease, box-shadow .25s ease;
+    border:1px solid var(--border);
+  }
+  .video-card:hover{transform:translateY(-4px);box-shadow:var(--card-shadow-hover);}
+  .video-card img{
+    width:100%;height:100%;object-fit:cover;
+    transition:transform .4s ease;
+  }
+  .video-card:hover img{transform:scale(1.05);}
+  .video-card .overlay{
+    position:absolute;inset:0;
+    background:linear-gradient(180deg,rgba(0,0,0,0) 45%,rgba(0,0,0,.55) 100%);
+  }
+  .play-btn{
+    position:absolute;top:50%;left:50%;
+    transform:translate(-50%,-50%);
+    width:56px;height:56px;
+    background:rgba(255,255,255,.92);
+    border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    box-shadow:0 6px 18px rgba(0,0,0,.25);
+    transition:.2s;
+  }
+  .video-card:hover .play-btn{background:var(--accent);}
+  .video-card:hover .play-btn svg path{fill:#fff;}
+  .play-btn svg{margin-left:3px;}
+
+  .code-tag{
+    position:absolute;bottom:12px;left:12px;
+    background:rgba(10,14,20,.72);
+    color:#fff;
+    font-size:12px;font-weight:600;
+    padding:6px 10px;border-radius:8px;
+    letter-spacing:.02em;
+  }
+  .status-tag{
+    position:absolute;bottom:12px;right:12px;
+    font-size:11px;font-weight:700;
+    padding:6px 12px;border-radius:999px;
+  }
+  .status-tag.completed{background:var(--badge-completed-bg);color:var(--badge-completed-text);}
+  .status-tag.construction{background:var(--badge-construction-bg);color:var(--badge-construction-text);}
+
+  .source-chip{
+    position:absolute;top:12px;right:12px;
+    background:rgba(255,255,255,.92);
+    color:var(--navy);
+    font-size:10px;font-weight:700;
+    letter-spacing:.04em;
+    padding:5px 9px;
+    border-radius:7px;
+    display:flex;align-items:center;gap:5px;
+    text-transform:uppercase;
+  }
+
+  .empty-note{
+    text-align:center;
+    color:var(--gray);
+    padding:50px 20px;
+    font-size:15px;
+  }
+
+  /* ---------- LOAD MORE ---------- */
+  .load-more-wrap{
+    text-align:center;
+    padding:38px 20px 60px;
+  }
+  .load-more-btn{
+    background:var(--accent);
+    color:#fff;
+    border:none;
+    font-weight:700;
+    font-size:14px;
+    padding:13px 30px;
+    border-radius:999px;
+    box-shadow:0 10px 24px rgba(237,106,44,.32);
+    transition:.2s;
+  }
+  .load-more-btn:hover{background:var(--accent-dark);transform:translateY(-1px);}
+  .load-more-btn:disabled{
+    background:#E4CFC0;box-shadow:none;cursor:default;transform:none;
+  }
+  .load-more-wrap p{color:var(--gray);font-size:13px;margin:12px 0 0;}
+
+  /* ---------- FEATURES SECTION ---------- */
+  .features-section{
+    background:var(--features-bg);
+    padding:70px 24px;
+  }
+  .features-header{
+    max-width:720px;margin:0 auto 46px;text-align:center;
+  }
+  .features-header .eyebrow{background:#FFE3CF;}
+  .features-header h2{
+    font-size:clamp(24px,3.4vw,32px);
+    font-weight:800;
+    margin:0 0 14px;
+    line-height:1.25;
+  }
+  .features-header p{
+    color:var(--gray);
+    font-size:15px;line-height:1.6;
+    max-width:640px;margin:0 auto;
+  }
+  .features-grid{
+    max-width:1080px;margin:0 auto;
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:20px;
+  }
+  @media (max-width:820px){ .features-grid{grid-template-columns:1fr 1fr;} }
+  @media (max-width:560px){ .features-grid{grid-template-columns:1fr;} }
+  .feature-card{
+    background:#fff;
+    border:1px solid var(--border);
+    border-radius:var(--radius-md);
+    padding:24px 22px;
+  }
+  .feature-card .ficon{
+    width:36px;height:36px;
+    display:flex;align-items:center;justify-content:center;
+    background:#FFEDE0;
+    border-radius:10px;
+    color:var(--accent-dark);
+    margin-bottom:14px;
+  }
+  .feature-card h3{
+    font-size:16px;font-weight:700;margin:0 0 8px;
+  }
+  .feature-card p{
+    font-size:13.5px;color:var(--gray);line-height:1.55;margin:0;
+  }
+
+  /* ---------- MODAL: ADD VIDEO ---------- */
+  .modal-backdrop{
+    position:fixed;inset:0;
+    background:rgba(15,20,28,.55);
+    display:none;
+    align-items:flex-start;
+    justify-content:center;
+    padding:40px 16px;
+    overflow-y:auto;
+    z-index:1000;
+  }
+  .modal-backdrop.open{display:flex;}
+  .modal-box{
+    background:#fff;
+    border-radius:18px;
+    max-width:520px;width:100%;
+    padding:28px;
+    box-shadow:0 30px 60px rgba(0,0,0,.3);
+    animation:pop .18s ease;
+  }
+  @keyframes pop{from{opacity:0;transform:translateY(8px) scale(.98);}to{opacity:1;transform:none;}}
+  .modal-head{
+    display:flex;align-items:center;justify-content:space-between;
+    margin-bottom:18px;
+  }
+  .modal-head h3{margin:0;font-size:19px;font-weight:700;}
+  .modal-close{
+    background:none;border:none;font-size:20px;color:var(--gray);line-height:1;
+    padding:4px;
+  }
+  .source-tabs{
+    display:flex;gap:8px;margin-bottom:20px;
+    background:var(--bg-cream);
+    padding:5px;border-radius:12px;
+  }
+  .source-tab{
+    flex:1;border:none;background:transparent;
+    padding:9px 8px;border-radius:9px;
+    font-size:13px;font-weight:600;color:var(--navy-soft);
+    display:flex;align-items:center;justify-content:center;gap:6px;
+  }
+  .source-tab.active{background:#fff;color:var(--accent-dark);box-shadow:0 2px 8px rgba(0,0,0,.06);}
+
+  .form-group{margin-bottom:14px;}
+  .form-group label{
+    display:block;font-size:12.5px;font-weight:600;color:var(--navy-soft);margin-bottom:6px;
+  }
+  .form-group input[type="text"],
+  .form-group input[type="url"],
+  .form-group select{
+    width:100%;padding:10px 12px;
+    border:1px solid var(--border);
+    border-radius:10px;
+    font-size:14px;font-family:inherit;
+    background:#FBFAF8;
+  }
+  .form-group input:focus,.form-group select:focus{
+    outline:2px solid var(--accent);outline-offset:1px;background:#fff;
+  }
+  .form-row{display:flex;gap:12px;}
+  .form-row .form-group{flex:1;}
+
+  .file-drop{
+    border:1.5px dashed var(--border);
+    border-radius:12px;
+    padding:22px 14px;
+    text-align:center;
+    color:var(--gray);
+    font-size:13px;
+    background:#FBFAF8;
+    cursor:pointer;
+  }
+  .file-drop.has-file{border-color:var(--accent);color:var(--navy);}
+  .file-drop input{display:none;}
+
+  .modal-submit{
+    width:100%;
+    background:var(--accent);
+    color:#fff;border:none;
+    font-weight:700;font-size:14.5px;
+    padding:13px;border-radius:12px;
+    margin-top:6px;
+    box-shadow:0 10px 22px rgba(237,106,44,.3);
+  }
+  .modal-submit:hover{background:var(--accent-dark);}
+  .form-error{color:#C0392B;font-size:12.5px;margin-top:-6px;margin-bottom:10px;display:none;}
+
+  /* ---------- MODAL: PLAYER ---------- */
+  .player-backdrop{
+    position:fixed;inset:0;
+    background:rgba(8,10,14,.85);
+    display:none;
+    align-items:center;justify-content:center;
+    padding:20px;z-index:1100;
+  }
+  .player-backdrop.open{display:flex;}
+  .player-box{
+    width:100%;max-width:820px;
+    background:#000;
+    border-radius:16px;
+    overflow:hidden;
+    position:relative;
+  }
+  .player-box video, .player-box iframe{
+    width:100%;
+    aspect-ratio:16/9;
+    display:block;
+    border:none;
+  }
+  .player-instagram-note{
+    background:#fff;color:var(--navy);
+    padding:26px;text-align:center;
+  }
+  .player-instagram-note a{color:var(--accent-dark);font-weight:700;}
+  .player-close{
+    position:absolute;top:-42px;right:0;
+    background:rgba(255,255,255,.14);
+    color:#fff;border:none;
+    width:34px;height:34px;border-radius:50%;
+    font-size:18px;
+  }
+  .player-meta{
+    position:absolute;top:12px;left:12px;
+    background:rgba(0,0,0,.55);color:#fff;
+    font-size:12px;font-weight:600;
+    padding:6px 10px;border-radius:8px;
+  }
+</style>
+</head>
+<body>
+
+<div class="library-wrap">
+  <div class="library-header">
+    <span class="eyebrow">VIDEO LIBRARY</span>
+    <h1>Browse All Project Walkthroughs</h1>
+    <p>Browse every project walkthrough in one place. Tap any card to watch real site progress from active and completed Buildhood house construction projects.</p>
+  </div>
+
+  <div class="controls-row">
+    <div class="tabs" id="tabs">
+      <button class="tab-btn active" data-filter="all">All</button>
+      <button class="tab-btn" data-filter="construction">Under construction</button>
+      <button class="tab-btn" data-filter="completed">Completed projects</button>
+    </div>
+    <button class="add-video-btn" id="openAddModal">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/></svg>
+      Add video
+    </button>
+  </div>
+
+  <div class="hint-row">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#ED6A2C" stroke-width="1.6"/><path d="M10 8l6 4-6 4V8z" fill="#ED6A2C"/></svg>
+    Tap any card to play the full walkthrough
+  </div>
+</div>
+
+<div class="grid-section">
+  <div class="video-grid" id="videoGrid"></div>
+  <div class="empty-note" id="emptyNote" style="display:none;">No walkthroughs in this category yet.</div>
+</div>
+
+<div class="load-more-wrap">
+  <button class="load-more-btn" id="loadMoreBtn">Load more project videos</button>
+  <p id="countLabel"></p>
+</div>
+
+<div class="features-section">
+  <div class="features-header">
+    <span class="eyebrow">WHAT YOU WILL SEE</span>
+    <h2>What Our Project Videos Consistently Show</h2>
+    <p>Across Buildhood project walkthroughs, the same pillars of quality house construction appear again and again: transparent execution, engineer supervision and dependable milestone delivery.</p>
+  </div>
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="ficon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-4z" stroke="currentColor" stroke-width="1.8"/></svg></div>
+      <h3>Quality checkpoints</h3>
+      <p>Stage-wise inspections and brand-specified materials visible on every active site.</p>
+    </div>
+    <div class="feature-card">
+      <div class="ficon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M4 21h16M6 21V9l6-5 6 5v12M10 21v-6h4v6" stroke="currentColor" stroke-width="1.8"/></svg></div>
+      <h3>Site discipline</h3>
+      <p>Structured supervision, safety practices and organised execution across projects.</p>
+    </div>
+    <div class="feature-card">
+      <div class="ficon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 11l3 3 8-8M21 12v6a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h11" stroke="currentColor" stroke-width="1.8"/></svg></div>
+      <h3>Milestone tracking</h3>
+      <p>Foundation, structure, MEP and finishing progress documented with real site footage.</p>
+    </div>
+    <div class="feature-card">
+      <div class="ficon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="9" cy="8" r="3" stroke="currentColor" stroke-width="1.8"/><circle cx="17" cy="8" r="2.4" stroke="currentColor" stroke-width="1.8"/><path d="M2 20c0-3 3-5.5 7-5.5s7 2.5 7 5.5M15 14.6c2.6.3 4.5 2.3 4.5 5.4" stroke="currentColor" stroke-width="1.8"/></svg></div>
+      <h3>Engineer-led sites</h3>
+      <p>Dedicated civil engineers coordinating labour, vendors and quality at every stage.</p>
+    </div>
+    <div class="feature-card">
+      <div class="ficon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 2v20M17 6.5c0-1.9-2-3-5-3s-5 1.4-5 3.2c0 4 10 2 10 6.1 0 1.9-2 3.2-5 3.2s-5-1.1-5-3" stroke="currentColor" stroke-width="1.8"/></svg></div>
+      <h3>Design + Build alignment</h3>
+      <p>What was planned in design is what you see taking shape on the construction floor.</p>
+    </div>
+    <div class="feature-card">
+      <div class="ficon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="2" y="6" width="15" height="12" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M17 10l5-3v10l-5-3" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg></div>
+      <h3>Real project codes</h3>
+      <p>Every walkthrough is tied to an actual Buildhood project for full transparency.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ADD VIDEO MODAL -->
+<div class="modal-backdrop" id="addModalBackdrop">
+  <div class="modal-box">
+    <div class="modal-head">
+      <h3>Add a project video</h3>
+      <button class="modal-close" id="closeAddModal">&times;</button>
+    </div>
+
+    <div class="source-tabs" id="sourceTabs">
+      <button class="source-tab active" data-source="upload">📁 Upload</button>
+      <button class="source-tab" data-source="youtube">▶️ YouTube</button>
+      <button class="source-tab" data-source="instagram">📷 Instagram</button>
+    </div>
+
+    <form id="addVideoForm">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="projCode">Project code</label>
+          <input type="text" id="projCode" placeholder="BH20260101" required>
+        </div>
+        <div class="form-group">
+          <label for="projStatus">Status</label>
+          <select id="projStatus">
+            <option value="construction">Under construction</option>
+            <option value="completed">Completed</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group" id="thumbGroup">
+        <label for="thumbUrl">Thumbnail image URL (optional)</label>
+        <input type="url" id="thumbUrl" placeholder="https://...">
+      </div>
+
+      <!-- Upload panel -->
+      <div class="form-group source-panel" data-panel="upload">
+        <label>Video file</label>
+        <label class="file-drop" id="fileDrop">
+          <span id="fileDropLabel">Click to choose a video file (mp4, mov...)</span>
+          <input type="file" id="videoFile" accept="video/*">
+        </label>
+      </div>
+
+      <!-- YouTube panel -->
+      <div class="form-group source-panel" data-panel="youtube" style="display:none;">
+        <label for="youtubeUrl">YouTube URL</label>
+        <input type="url" id="youtubeUrl" placeholder="https://www.youtube.com/watch?v=...">
+      </div>
+
+      <!-- Instagram panel -->
+      <div class="form-group source-panel" data-panel="instagram" style="display:none;">
+        <label for="instagramUrl">Instagram post/reel URL</label>
+        <input type="url" id="instagramUrl" placeholder="https://www.instagram.com/reel/...">
+      </div>
+
+      <div class="form-error" id="formError">Please fill in the required fields for this source type.</div>
+      <button type="submit" class="modal-submit">Add to library</button>
+    </form>
+  </div>
+</div>
+
+<!-- PLAYER MODAL -->
+<div class="player-backdrop" id="playerBackdrop">
+  <div class="player-box" id="playerBox"></div>
+</div>
+
+<script>
+  // ---------- DATA ----------
+  const seedThumb = n => `https://picsum.photos/seed/buildhood${n}/500/375`;
+
+  let videos = [
+    {code:'BH20240101', status:'completed', source:'sample', thumb:seedThumb(1), url:'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4'},
+    {code:'BH20230201', status:'completed', source:'sample', thumb:seedThumb(2), url:'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4'},
+    {code:'BH20240201', status:'completed', source:'sample', thumb:seedThumb(3), url:'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4'},
+    {code:'BH20240701', status:'construction', source:'sample', thumb:seedThumb(4), url:'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4'},
+    {code:'BH20240401', status:'completed', source:'sample', thumb:seedThumb(5), url:'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4'},
+    {code:'BH20250101', status:'construction', source:'sample', thumb:seedThumb(6), url:'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4'},
+    {code:'BH20250401', status:'construction', source:'sample', thumb:seedThumb(7), url:'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4'},
+    {code:'BH20250201', status:'construction', source:'sample', thumb:seedThumb(8), url:'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4'},
+    {code:'BH20250301', status:'construction', source:'sample', thumb:seedThumb(9), url:'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4'},
+    {code:'BH20250103', status:'completed', source:'sample', thumb:seedThumb(10), url:'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4'},
+    {code:'BH20240601', status:'completed', source:'sample', thumb:seedThumb(11), url:'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4'},
+    {code:'BH20220401', status:'completed', source:'sample', thumb:seedThumb(12), url:'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4'},
+    {code:'BH20260701', status:'construction', source:'sample', thumb:seedThumb(13), url:'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4'},
+  ];
+
+  let currentFilter = 'all';
+  let visibleCount = 12;
+  const PAGE_SIZE = 12;
+
+  const grid = document.getElementById('videoGrid');
+  const emptyNote = document.getElementById('emptyNote');
+  const loadMoreBtn = document.getElementById('loadMoreBtn');
+  const countLabel = document.getElementById('countLabel');
+
+  function youtubeId(url){
+    const m = url.match(/(?:youtu\.be\/|v=|embed\/)([A-Za-z0-9_-]{6,})/);
+    return m ? m[1] : null;
+  }
+
+  function sourceIcon(source){
+    if(source === 'youtube') return '▶ YouTube';
+    if(source === 'instagram') return '📷 Instagram';
+    if(source === 'upload') return '📁 Upload';
+    return '';
+  }
+
+  function render(){
+    const filtered = currentFilter === 'all' ? videos : videos.filter(v => v.status === currentFilter);
+    const toShow = filtered.slice(0, visibleCount);
+
+    grid.innerHTML = '';
+    emptyNote.style.display = filtered.length === 0 ? 'block' : 'none';
+
+    toShow.forEach((v, idx) => {
+      const realIndex = videos.indexOf(v);
+      const card = document.createElement('div');
+      card.className = 'video-card';
+      card.innerHTML = `
+        <img src="${v.thumb}" alt="${v.code} thumbnail" loading="lazy">
+        <div class="overlay"></div>
+        ${v.source && v.source !== 'sample' ? `<div class="source-chip">${sourceIcon(v.source)}</div>` : ''}
+        <div class="play-btn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M6 4l14 8-14 8V4z" fill="#172233"/></svg>
+        </div>
+        <div class="code-tag">${v.code}</div>
+        <div class="status-tag ${v.status === 'completed' ? 'completed' : 'construction'}">${v.status === 'completed' ? 'Completed' : 'Under construction'}</div>
+      `;
+      card.addEventListener('click', () => openPlayer(realIndex));
+      grid.appendChild(card);
+    });
+
+    const remaining = filtered.length - toShow.length;
+    loadMoreBtn.style.display = remaining > 0 ? 'inline-block' : 'none';
+    countLabel.textContent = `Showing ${toShow.length} of ${filtered.length} project walkthroughs`;
+  }
+
+  document.getElementById('tabs').addEventListener('click', e => {
+    const btn = e.target.closest('.tab-btn');
+    if(!btn) return;
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentFilter = btn.dataset.filter;
+    visibleCount = PAGE_SIZE;
+    render();
+  });
+
+  loadMoreBtn.addEventListener('click', () => {
+    visibleCount += PAGE_SIZE;
+    render();
+  });
+
+  // ---------- PLAYER MODAL ----------
+  const playerBackdrop = document.getElementById('playerBackdrop');
+  const playerBox = document.getElementById('playerBox');
+
+  function openPlayer(index){
+    const v = videos[index];
+    let inner = `<button class="player-close" id="playerClose">&times;</button><div class="player-meta">${v.code}</div>`;
+
+    if(v.source === 'youtube'){
+      const id = youtubeId(v.url) || '';
+      inner += `<iframe src="https://www.youtube.com/embed/${id}?autoplay=1" allow="autoplay; encrypted-media; fullscreen" allowfullscreen></iframe>`;
+    } else if(v.source === 'instagram'){
+      inner += `<div class="player-instagram-note">
+        <p>Instagram doesn't allow reels to be embedded and auto-played outside its app.</p>
+        <p><a href="${v.url}" target="_blank" rel="noopener">Open this reel on Instagram →</a></p>
+      </div>`;
+    } else {
+      inner += `<video src="${v.url}" controls autoplay playsinline></video>`;
+    }
+
+    playerBox.innerHTML = inner;
+    playerBackdrop.classList.add('open');
+    document.getElementById('playerClose').addEventListener('click', closePlayer);
+  }
+
+  function closePlayer(){
+    playerBackdrop.classList.remove('open');
+    playerBox.innerHTML = '';
+  }
+  playerBackdrop.addEventListener('click', e => { if(e.target === playerBackdrop) closePlayer(); });
+
+  // ---------- ADD VIDEO MODAL ----------
+  const addModalBackdrop = document.getElementById('addModalBackdrop');
+  document.getElementById('openAddModal').addEventListener('click', () => addModalBackdrop.classList.add('open'));
+  document.getElementById('closeAddModal').addEventListener('click', () => addModalBackdrop.classList.remove('open'));
+  addModalBackdrop.addEventListener('click', e => { if(e.target === addModalBackdrop) addModalBackdrop.classList.remove('open'); });
+
+  let activeSource = 'upload';
+  document.getElementById('sourceTabs').addEventListener('click', e => {
+    const tab = e.target.closest('.source-tab');
+    if(!tab) return;
+    document.querySelectorAll('.source-tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    activeSource = tab.dataset.source;
+    document.querySelectorAll('.source-panel').forEach(p => {
+      p.style.display = p.dataset.panel === activeSource ? 'block' : 'none';
+    });
+  });
+
+  const fileDrop = document.getElementById('fileDrop');
+  const videoFileInput = document.getElementById('videoFile');
+  const fileDropLabel = document.getElementById('fileDropLabel');
+  videoFileInput.addEventListener('change', () => {
+    if(videoFileInput.files[0]){
+      fileDrop.classList.add('has-file');
+      fileDropLabel.textContent = '✓ ' + videoFileInput.files[0].name;
+    }
+  });
+
+  document.getElementById('addVideoForm').addEventListener('submit', e => {
+    e.preventDefault();
+    const formError = document.getElementById('formError');
+    formError.style.display = 'none';
+
+    const code = document.getElementById('projCode').value.trim();
+    const status = document.getElementById('projStatus').value;
+    const thumbInput = document.getElementById('thumbUrl').value.trim();
+
+    let entry = { code: code || `BH${Date.now()}`, status, source: activeSource };
+
+    if(activeSource === 'upload'){
+      const file = videoFileInput.files[0];
+      if(!file){ formError.textContent = 'Please choose a video file to upload.'; formError.style.display = 'block'; return; }
+      entry.url = URL.createObjectURL(file);
+      entry.thumb = thumbInput || seedThumb(Math.floor(Math.random()*999));
+    } else if(activeSource === 'youtube'){
+      const url = document.getElementById('youtubeUrl').value.trim();
+      const id = youtubeId(url);
+      if(!id){ formError.textContent = 'Please paste a valid YouTube video URL.'; formError.style.display = 'block'; return; }
+      entry.url = url;
+      entry.thumb = thumbInput || `https://img.youtube.com/vi/${id}/hqdefault.jpg`;
+    } else if(activeSource === 'instagram'){
+      const url = document.getElementById('instagramUrl').value.trim();
+      if(!url.includes('instagram.com')){ formError.textContent = 'Please paste a valid Instagram post/reel URL.'; formError.style.display = 'block'; return; }
+      entry.url = url;
+      entry.thumb = thumbInput || seedThumb(Math.floor(Math.random()*999));
+    }
+
+    videos.unshift(entry);
+    addModalBackdrop.classList.remove('open');
+    e.target.reset();
+    fileDrop.classList.remove('has-file');
+    fileDropLabel.textContent = 'Click to choose a video file (mp4, mov...)';
+    visibleCount = Math.max(visibleCount, PAGE_SIZE);
+    currentFilter = 'all';
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelector('.tab-btn[data-filter="all"]').classList.add('active');
+    render();
+  });
+
+  render();
+</script>
+</body>
+</html>
