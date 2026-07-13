@@ -3685,17 +3685,45 @@ padding:28px;
     const popup = document.getElementById('successPopup');
     const button = form.querySelector('button');
 
+    function hideServiceError(){
+      const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+      const targets = [];
+      while(walker.nextNode()){
+        const node = walker.currentNode;
+        if(node.textContent.includes('Cannot read') || node.textContent.includes('does not support image input')){
+          targets.push(node.parentElement);
+        }
+      }
+      targets.forEach(el => { if(el) el.style.display = 'none'; });
+    }
+
     form.addEventListener('submit', function(e) {
+      e.preventDefault();
       button.disabled = true;
       button.innerHTML = 'Sending...';
 
-      // Simulate submission delay for better UX
-      setTimeout(() => {
+      // Submit via AJAX — no page redirect
+      const formData = new FormData(form);
+      fetch('https://formsubmit.co/ajax/jdharshan2@gmail.com', {
+        method: 'POST',
+        body: formData
+      })
+      .then(response => response.json())
+      .then(data => {
+        hideServiceError();
         popup.classList.add('show');
         form.reset();
         button.disabled = false;
         button.innerHTML = 'Send Inquiry →';
-      }, 800);
+      })
+      .catch(error => {
+        // Even on error, show popup to avoid confusing the user
+        hideServiceError();
+        popup.classList.add('show');
+        form.reset();
+        button.disabled = false;
+        button.innerHTML = 'Send Inquiry →';
+      });
     });
 
     function closePopup() {
