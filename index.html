@@ -469,16 +469,12 @@
       position: relative;
       overflow: hidden;
       background:
-        linear-gradient(180deg, rgba(10, 10, 10, 0.55) 0%, rgba(10, 10, 10, 0.78) 55%, rgba(10, 10, 10, 0.95) 100%),
+        linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.3)), 
         url('https://i.pinimg.com/736x/4c/f7/33/4cf7333bde8593a0fb9dd2954b6becdd.jpg') center/cover no-repeat;
+        
     }
 
-    #hero .blueprint-grid {
-      position: absolute;
-      inset: 0;
-      background-size: 48px 48px;
-      opacity: .5;
-    }
+    
 
     .hero-content {
       position: relative;
@@ -3668,15 +3664,7 @@ padding:28px;
     }));
 
     // ===== Cursor spotlight (desktop only) =====
-    if (window.matchMedia('(pointer:fine)').matches) {
-      const spot = document.getElementById('spotlight');
-      document.addEventListener('mousemove', e => {
-        spot.style.opacity = 1;
-        spot.style.left = e.clientX + 'px';
-        spot.style.top = e.clientY + 'px';
-      });
-      document.addEventListener('mouseleave', () => spot.style.opacity = 0);
-    }
+    
     // ===== Stat=====
     
 
