@@ -38,14 +38,14 @@
   .logo{
     display:flex;
     align-items:center;
-    gap:8px;
-    font-size:19px;
-    font-weight:700;
-    color:#fff;
-    letter-spacing:.2px;
+    text-decoration:none;
   }
-  .logo svg{ width:26px; height:22px; }
-  .logo .accent{ color:var(--gold); font-weight:700; }
+  .logo img{
+    height:34px;
+    width:auto;
+    object-fit:contain;
+    display:block;
+  }
 
   .nav-links{
     display:flex;
@@ -124,6 +124,19 @@
     padding:34px 5vw 46px;
     overflow:hidden;
     color:#fff;
+  }
+
+  .hero::after{
+    content:"";
+    position:absolute;
+    top:0;
+    right:0;
+    width:40%;
+    height:160%;
+    background:
+      linear-gradient(to right, rgba(17, 16, 16, 0.7) 0%, transparent 30%),
+      url('https://i.pinimg.com/736x/f2/5c/97/f25c972e61f7ea89fd91015a73bc0e77.jpg') no-repeat center center/cover;
+    z-index:1;
   }
 
   .breadcrumb{
@@ -317,12 +330,9 @@
 
 <!-- NAVBAR -->
 <header class="navbar">
-  <div class="logo">
-    <svg viewBox="0 0 24 20" fill="none">
-      <path d="M1 1 L7 18 L12 6 L17 18 L23 1" stroke="#f2a91f" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/>
-    </svg>
-    VINS <span class="accent">Construction</span>
-  </div>
+  <a href="index.html" class="logo">
+    <img src="https://i.postimg.cc/SQ2bZbPS/image.png" alt="VINS Construction Logo">
+  </a>
 
   <ul class="nav-links">
     <li><a href="index.html">Home</a></li>
