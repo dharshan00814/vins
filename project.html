@@ -84,12 +84,9 @@ ul{list-style:none;}
   display:flex;align-items:center;justify-content:space-between;gap:32px;
 }
 .logo{
-  font-family:'Fraunces',serif;font-weight:500;font-size:20px;letter-spacing:.01em;
-  display:flex;align-items:center;gap:10px;
-}
-.logo em{
-  font-style:italic;color:var(--brass-dark);
-}
+    display:flex;align-items:center;
+  }
+  .logo img{height:36px;width:auto;}
 .nav-links{display:flex;align-items:center;gap:38px;}
 .nav-links a{
   font-size:14px;font-weight:500;color:var(--ink-soft);
@@ -482,13 +479,13 @@ ul{list-style:none;}
 <!-- ============ NAVBAR ============ -->
 <header class="nav" id="nav">
   <div class="nav-inner">
-    <a href="#" class="logo">HALDEN <em>&amp;</em> VANCE</a>
+    <a href="#" class="logo"><img src="logo.png" alt="VINS Construction"></a>
     <nav class="nav-links">
-      <a href="#" >Studio</a>
-      <a href="#" class="active">Work</a>
-      <a href="#">Services</a>
-      <a href="#">Journal</a>
-      <a href="#">Contact</a>
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="service.html">Services</a>
+      <a href="project.html" class="active">Projects</a>
+      <a href="contact.html">Contact</a>
     </nav>
     <div class="nav-cta">
       <a href="#" class="btn btn-primary">Start a project →</a>
@@ -556,7 +553,7 @@ ul{list-style:none;}
   <div class="wrap">
     <div class="footer-top">
       <div class="footer-brand">
-        <a href="#" class="logo">HALDEN <em>&amp;</em> VANCE</a>
+        <a href="#" class="logo"><img src="logo.png" alt="VINS Construction"></a>
         <p>An architecture and construction studio working across residential, commercial and civic scales — grounded in material honesty and long-term craft.</p>
       </div>
       <div>

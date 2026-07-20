@@ -216,12 +216,9 @@
       display:flex;align-items:center;justify-content:space-between;gap:32px;
     }
     .logo{
-      font-family:'Fraunces',serif;font-weight:500;font-size:20px;letter-spacing:.01em;
-      display:flex;align-items:center;gap:10px;
+      display:flex;align-items:center;
     }
-    .logo em{
-      font-style:italic;color:var(--brass-dark);
-    }
+    .logo img{height:36px;width:auto;}
     .nav-links{display:flex;align-items:center;gap:38px;}
     .nav-links a{
       font-size:14px;font-weight:500;color:var(--ink-soft);
@@ -2359,11 +2356,11 @@ padding:28px;
     }
 
     .footer-logo {
-      font-family: var(--display);
-      font-weight: 900;
-      color: #242323;
-      font-size: 20px;
       margin-bottom: 16px;
+    }
+    .footer-logo img {
+      height: 36px;
+      width: auto;
     }
 
     .footer-grid p {
@@ -2940,7 +2937,7 @@ padding:28px;
 <body>
 
   <div id="loader">
-    <div class="loader-mark">VINS<span>.</span></div>
+    <div class="loader-mark"><img src="logo.png" alt="VINS Construction"></div>
     <div class="loader-bar"></div>
   </div>
 
@@ -2948,7 +2945,7 @@ padding:28px;
 
   <header class="nav" id="nav">
     <div class="nav-inner">
-      <a href="index.html" class="logo">VINS<em>.</em>CONSTRUCTION</a>
+      <a href="index.html" class="logo"><img src="logo.png" alt="VINS Construction"></a>
       <nav class="nav-links">
         <a href="index.html" class="active">Home</a>
         <a href="about.html">About</a>
@@ -3764,7 +3761,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
     <div class="container">
       <div class="footer-grid">
         <div>
-          <div class="footer-logo">VINS<span style="color:var(--yellow);">.</span>CONSTRUCTION</div>
+          <div class="footer-logo"><img src="logo.png" alt="VINS Construction"></div>
           <p>Building Trust. Creating Landmarks. Premium construction across residential, commercial, industrial and
             infrastructure sectors.</p>
         </div>
