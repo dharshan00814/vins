@@ -101,74 +101,6 @@
       }
     }
 
-    /* ============ LOADER ============ */
-    #loader {
-      position: fixed;
-      inset: 0;
-      z-index: 9999;
-      background: var(--black);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-      gap: 18px;
-      transition: opacity .6s var(--ease), visibility .6s var(--ease);
-    }
-
-    #loader.hide {
-      opacity: 0;
-      visibility: hidden;
-      pointer-events: none;
-    }
-
-    .loader-mark {
-      font-family: var(--display);
-      font-weight: 900;
-      font-size: clamp(28px, 5vw, 44px);
-      color: var(--white);
-      letter-spacing: 2px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .loader-mark span {
-      color: var(--yellow);
-    }
-
-    .loader-bar {
-      width: 180px;
-      height: 2px;
-      background: var(--gray-line);
-      position: relative;
-      overflow: hidden;
-      border-radius: 2px;
-    }
-
-    .loader-bar::after {
-      content: '';
-      position: absolute;
-      left: -40%;
-      top: 0;
-      bottom: 0;
-      width: 40%;
-      background: var(--yellow);
-      animation: loaderMove 1.1s ease-in-out infinite;
-    }
-
-    @keyframes loaderMove {
-      0% {
-        left: -40%;
-      }
-
-      50% {
-        left: 60%;
-      }
-
-      100% {
-        left: 100%;
-      }
-    }
-
     /* ============ CURSOR SPOTLIGHT ============ */
     #spotlight {
       position: fixed;
@@ -1010,12 +942,7 @@
     }
   </style>
 </head>
-
 <body>
-  <div id="loader">
-    <div class="loader-mark"><img src="logo.png" alt="VINS Construction"></div>
-    <div class="loader-bar"></div>
-  </div>
 
   <div id="spotlight"></div>
 
@@ -1232,11 +1159,6 @@
   <div class="toast" id="toast"><span>✓</span><span id="toastMsg">Request submitted</span></div>
 
   <script>
-    // ===== Loader =====
-    window.addEventListener('load', () => {
-      setTimeout(() => { document.getElementById('loader').classList.add('hide'); }, 700);
-    });
-
     // ===== Navbar scroll + mobile toggle =====
     const nav = document.getElementById('nav');
     const navToggle = document.getElementById('navToggle');
